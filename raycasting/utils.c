@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 14:04:50 by tony              #+#    #+#             */
-/*   Updated: 2025/12/05 15:49:41 by ehattab          ###   ########.fr       */
+/*   Created: 2025/11/29 20:15:32 by ehattab           #+#    #+#             */
+/*   Updated: 2025/11/29 20:48:22 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../parsing/cub3d.h"
 
-int	main(int ac, char **av)
+char	**get_map(void)
 {
-	(void)ac;
-	(void)av;
-
-
-	t_game	game;
-	init_game(&game);
-	mlx_hook(game.win, 2, 1L<<0, key_press, &game.player);
-	mlx_hook(game.win, 3, 1L<<1, key_release, &game.player);
-	mlx_loop_hook(game.mlx, draw_loop, &game);
-	mlx_loop(game.mlx);
-	return (0);
+	char	**map = malloc(sizeof(char *) * 11);
+	map[0] = "11111111111111";
+	map[1] = "10000000000001";
+	map[2] = "10000000000001";
+	map[3] = "10000001000001";
+	map[4] = "10000000000001";
+	map[5] = "10000000000001";
+	map[6] = "10000000000001";
+	map[7] = "10000000000001";
+	map[8] = "10000000000001";
+	map[9] = "11111111111111";
+	map[10] = NULL;
+	return (map);
 }

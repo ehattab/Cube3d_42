@@ -6,7 +6,7 @@
 #    By: toroman <toroman@student.42nice.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/26 09:33:14 by toroman           #+#    #+#              #
-#    Updated: 2025/11/25 16:00:34 by toroman          ###   ########.fr        #
+#    Updated: 2025/11/18 15:11:16 by toroman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIBFT_SRC = ${addprefix ${LIBFT_PATH}/, ft_atoi.c ft_bzero.c ft_isalnum.c ft_isa
 			ft_strchr.c ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c \
 			ft_strlcat.c ft_strnstr.c ft_strdup.c ft_calloc.c ft_putchar_fd.c \
 			ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_strjoin.c ft_substr.c \
-			ft_strtrim.c ft_itoa.c ft_striteri.c ft_strmapi.c ft_split.c ft_strcmp.c}
+			ft_strtrim.c ft_itoa.c ft_striteri.c ft_strmapi.c ft_split.c}
 PRINTF_PATH = ./Printf
 
 PRINTF_SRC = ${addprefix ${PRINTF_PATH}/, ft_printf.c ft_putchar.c ft_putstr.c ft_putptr.c ft_putnbr.c ft_uputnbr.c ft_base16_lowercase.c ft_base16_ptr.c ft_base16_uppercase.c}

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toroman <toroman@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:51:41 by tony              #+#    #+#             */
-/*   Updated: 2025/11/18 15:06:43 by toroman          ###   ########.fr       */
+/*   Updated: 2025/11/27 19:13:23 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 void    check_fd(int fd)
 {
