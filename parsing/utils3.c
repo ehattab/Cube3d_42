@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toroman <toroman@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:53:27 by toroman           #+#    #+#             */
-/*   Updated: 2025/11/25 18:11:42 by toroman          ###   ########.fr       */
+/*   Updated: 2025/12/10 17:51:15 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	check_xpm(char *str)
 	int i;
 
 	i = 0;
+	
 	while(str[i])
 	{
 		if (ft_strncmp(str + ft_strlen(str) - 4, "xpm", 4))
