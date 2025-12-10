@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:04:50 by tony              #+#    #+#             */
-/*   Updated: 2025/12/05 15:49:41 by ehattab          ###   ########.fr       */
+/*   Updated: 2025/12/10 18:27:53 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 int	main(int ac, char **av)
 {
-	(void)ac;
-	(void)av;
-
+	if (ac == 2)
+	{
+		check_file(av[1]);
+	}
 
 	t_game	game;
 	init_game(&game);
