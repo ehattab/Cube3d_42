@@ -6,11 +6,11 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:16:45 by toroman           #+#    #+#             */
-/*   Updated: 2025/11/27 19:13:25 by ehattab          ###   ########.fr       */
+/*   Updated: 2025/12/10 18:25:58 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cube3d.h"
 
 int	check_big_len(char **map)
 {
@@ -30,7 +30,7 @@ int	check_big_len(char **map)
 	return (big);
 }
 
-char	**map_all(char **map, char *argv)
+char	**map_scan(char **map, char *argv)
 {
 	char	**map_copy;
 	int		i;
