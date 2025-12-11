@@ -6,11 +6,11 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:53:27 by toroman           #+#    #+#             */
-/*   Updated: 2025/12/10 18:22:43 by ehattab          ###   ########.fr       */
+/*   Updated: 2025/12/11 18:02:51 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 int	is_alpha(char *str)
 {

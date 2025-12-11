@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 18:49:44 by tony              #+#    #+#             */
-/*   Updated: 2025/12/10 18:24:29 by ehattab          ###   ########.fr       */
+/*   Updated: 2025/12/11 17:57:44 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ typedef struct s_game
 	int			endian;
 	t_player	player;
 	char		**map;
-}			t_game;
+}				t_game;
 
 typedef	struct s_map
 {
 	char	**map;
 	int		width;
 	int		height;
-}	t_map;
+}			t_map;
 
 typedef	struct s_parsing
 {
