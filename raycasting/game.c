@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:11:36 by ehattab           #+#    #+#             */
-/*   Updated: 2025/12/11 18:57:00 by ehattab          ###   ########.fr       */
+/*   Updated: 2025/12/12 21:53:46 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,17 @@ void	draw_map(t_game *game)
 
 bool	touch(float px, float py, t_game *game)
 {
-	int x = px / BLOCK;
-	int y = py / BLOCK;
+	int	x;
+	int	y;
+	int	height;
+
+	x = px / BLOCK;
+	y = py / BLOCK;
+	height = count_lines_tab(game->map);
+	if (y < 0 || y >= height)
+		return true;
+	if (x < 0 || x >= (int)ft_strlen(game->map[y]))
+		return true;
 	if (game->map[y][x] == '1')
 		return true;
 	return false;

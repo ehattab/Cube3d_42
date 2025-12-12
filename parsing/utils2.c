@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 15:43:43 by toroman           #+#    #+#             */
-/*   Updated: 2025/12/12 16:43:57 by ehattab          ###   ########.fr       */
+/*   Updated: 2025/12/12 21:57:01 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,24 @@ void	search_position(char **map_copy, t_map *map)
 			if (map_copy[i][j] == 'S' || map_copy[i][j] == 'N'
 				|| map_copy[i][j] == 'W' || map_copy[i][j] == 'E')
 			{
-				map->x = i;
-				map->y = j;
+				map->y = i;
+				map->x = j;
 				return ;
 			}
 			j++;
 		}
 		i++;
 	}
+}
+
+int	count_lines_tab(char **tab)
+{
+	int	i;
+
+	if (!tab)
+		return (0);
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
 }

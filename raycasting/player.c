@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 16:06:12 by ehattab           #+#    #+#             */
-/*   Updated: 2025/12/12 16:11:08 by ehattab          ###   ########.fr       */
+/*   Updated: 2025/12/12 22:34:58 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,37 +29,39 @@ void	init_player(t_player *player, t_map *map)
 	player->right_rotate = false;
 }
 
-int	key_press(int keycode, t_player *player)
+int	key_press(int keycode, t_game *game)
 {
+	if (keycode == ESC)
+		close_game(game);
 	if(keycode == W)
-		player->key_up = true;
+		game->player.key_up = true;
 	if(keycode == S)
-		player->key_down = true;
+		game->player.key_down = true;
 	if(keycode == D)
-		player->key_right = true;
+		game->player.key_right = true;
 	if(keycode == A)
-		player->key_left = true;
+		game->player.key_left = true;
 	if(keycode == LEFT)
-		player->left_rotate = true;
+		game->player.left_rotate = true;
 	if(keycode == RIGHT)
-		player->right_rotate = true;
+		game->player.right_rotate = true;
 	return (0);
 }
 
-int	key_release(int keycode, t_player *player)
+int	key_release(int keycode, t_game *game)
 {
 	if(keycode == W)
-		player->key_up = false;
+		game->player.key_up = false;
 	if(keycode == S)
-		player->key_down = false;
+		game->player.key_down = false;
 	if(keycode == D)
-		player->key_right = false;
+		game->player.key_right = false;
 	if(keycode == A)
-		player->key_left = false;
+		game->player.key_left = false;
 	if(keycode == LEFT)
-		player->left_rotate = false;
+		game->player.left_rotate = false;
 	if(keycode == RIGHT)
-		player->right_rotate = false;
+		game->player.right_rotate = false;
 	return (0);
 }
 
