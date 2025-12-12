@@ -6,7 +6,7 @@
 #    By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/18 14:52:34 by toroman           #+#    #+#              #
-#    Updated: 2025/12/05 15:46:10 by ehattab          ###   ########.fr        #
+#    Updated: 2025/12/11 18:40:26 by ehattab          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = cub3d
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3
 
-SRCS = parsing/utils.c parsing/main.c parsing/utils1.c \
+SRCS = parsing/utils.c parsing/main.c parsing/utils1.c parsing/utils2.c parsing/utils3.c\
 raycasting/game.c raycasting/player.c raycasting/utils.c
 OBJS = $(SRCS:.c=.o)
 

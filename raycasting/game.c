@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:11:36 by ehattab           #+#    #+#             */
-/*   Updated: 2025/12/02 16:56:31 by ehattab          ###   ########.fr       */
+/*   Updated: 2025/12/11 18:57:00 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,9 @@ void	clear_image(t_game *game)
 			put_pixel(x, y, 0, game);
 }
 
-void	init_game(t_game *game)
+void	init_game(t_game *game, t_map *map)
 {
-	init_player(&game->player);
+	init_player(&game->player, map);
 	game->map = get_map();
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cub3d");

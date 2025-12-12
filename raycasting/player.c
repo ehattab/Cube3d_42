@@ -6,17 +6,21 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 16:06:12 by ehattab           #+#    #+#             */
-/*   Updated: 2025/12/02 16:52:13 by ehattab          ###   ########.fr       */
+/*   Updated: 2025/12/12 16:11:08 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing/cub3d.h"
 
-void	init_player(t_player *player)
+void	init_player(t_player *player, t_map *map)
 {
-	player->x = WIDTH / 2;
-	player->y = HEIGHT / 2;
-	player->angle = PI / 2;
+	// (void)map;
+	// player->x = WIDTH / 2;
+	// player->y = HEIGHT / 2;
+	player->x = (map->x * BLOCK) + (BLOCK / 2);
+	player->y = (map->y * BLOCK) + (BLOCK / 2);
+	player->angle = spawn_angle(map->p);
+	// player->angle = PI;
 	player->key_up = false;
 	player->key_down = false;
 	player->key_left = false;
