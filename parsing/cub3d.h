@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 18:49:44 by tony              #+#    #+#             */
-/*   Updated: 2025/12/12 22:30:13 by ehattab          ###   ########.fr       */
+/*   Updated: 2025/12/13 21:10:50 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,31 @@ typedef struct s_player
 	bool	right_rotate;
 }			t_player;
 
+typedef struct s_img
+{
+	void	*img;
+	char	*data;
+	int		bpp;
+	int		size_line;
+	int		endian;
+	int		width;
+	int		height;
+}			t_img;
+
 typedef struct s_game
 {
 	void		*mlx;
 	void		*win;
 	void		*img;
-	char		*data;
 	int			bpp;
-	int			size_line;
+	char		*data;
 	int			endian;
-	t_player	player;
+	int			floor_color;
+	int			ceil_color;
 	char		**map;
+	int			size_line;
+	t_img		texture[4];
+	t_player	player;
 }				t_game;
 
 typedef	struct s_map
@@ -73,6 +87,7 @@ typedef	struct s_map
 	int		y;
 	char	p;
 }			t_map;
+
 
 // typedef	struct s_parsing
 // {
