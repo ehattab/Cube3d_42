@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:04:50 by tony              #+#    #+#             */
-/*   Updated: 2025/12/12 22:39:18 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/01/13 15:26:57 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@ int	main(int ac, char **av)
 
 	(void)av;
 	(void)ac;
-	// if (ac == 2)
-	// {
-	// 	check_file(av[1]);
-	// }
 	map.map = get_map1();
 	search_position(map.map, &map);
 	map.p = map.map[map.y][map.x];

@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:11:36 by ehattab           #+#    #+#             */
-/*   Updated: 2025/12/13 21:15:12 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/01/13 16:31:20 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ void	draw_line(t_player *player, t_game *game, float start_x, int i)
 	float	sin_angle = sin(start_x);
 	float	ray_x = player->x;
 	float	ray_y = player->y;
+	int		y = 0;
 
 	(void)i;
-
 	while (!touch(ray_x, ray_y, game))
 	{
 		if (DEBUG)
@@ -99,11 +99,24 @@ void	draw_line(t_player *player, t_game *game, float start_x, int i)
 		float	dist = fixed_dist(player->x, player->y, ray_x, ray_y, game);
 		float	height = (BLOCK / dist) * (WIDTH / 2);
 		int		start_y = (HEIGHT - height) / 2;
-		int		end = start_y + height;
-		while (start_y < end)
+		int		end_y = start_y + height;
+		y = 0;
+		while (y < start_y)
 		{
-			put_pixel(i, start_y, 255, game);
-			start_y++;
+			put_pixel(i, y, game->ceil_color, game);
+			y++;
+		}
+		y = start_y;
+		while (y < end_y && y < HEIGHT)
+		{
+			put_pixel(i, y, 0xFFFF00, game);
+			y++;
+		}
+		y = end_y;
+		while (y < HEIGHT)
+		{
+			put_pixel(i, y, game->floor_color, game);
+			y++;
 		}
 	}
 }
@@ -114,7 +127,7 @@ int	draw_loop(t_game *game)
 
 	player = &game->player;
 	move_player(player);
-	clear_image(game);
+	// clear_image(game);
 	if (DEBUG)
 	{
 		draw_square(player->x, player->y, 10, 0x00FF00, game);
@@ -133,12 +146,12 @@ int	draw_loop(t_game *game)
 	return (0);
 }
 
-void	clear_image(t_game *game)
-{
-	for(int y = 0; y < HEIGHT; y++)
-		for(int x = 0; x < WIDTH; x++)
-			put_pixel(x, y, 0, game);
-}
+// void	clear_image(t_game *game)
+// {
+// 	for(int y = 0; y < HEIGHT; y++)
+// 		for(int x = 0; x < WIDTH; x++)
+// 			put_pixel(x, y, 0, game);
+// }
 
 void	init_game(t_game *game, t_map *map)
 {
@@ -148,5 +161,7 @@ void	init_game(t_game *game, t_map *map)
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cub3d");
 	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	game->data = mlx_get_data_addr(game->img, &game->bpp, &game->size_line, &game->endian);
+	game->ceil_color = (0 << 16) | (150 << 8) | 255;
+	game->floor_color = (0 << 16) | (0 << 8) | 0;
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 }
