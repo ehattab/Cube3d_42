@@ -6,11 +6,11 @@
 /*   By: toroman <toroman@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:16:45 by toroman           #+#    #+#             */
-/*   Updated: 2025/11/18 18:01:03 by toroman          ###   ########.fr       */
+/*   Updated: 2026/01/15 16:53:31 by toroman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 int	check_big_len(char **map)
 {
@@ -36,7 +36,7 @@ char	**map_scan(char **map, char *argv)
 	int		i;
 
 	i = 0;
-	map_copy = malloc(sizeof(char *) * (count_lines(argv) - 6) + 1);
+	map_copy = malloc(sizeof(char *) * ((count_lines(argv) - 6) + 1));
 	while (map[i])
 	{
 		map_copy[i] = ft_strdup(map[i]);

@@ -6,11 +6,11 @@
 /*   By: toroman <toroman@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:33:06 by toroman           #+#    #+#             */
-/*   Updated: 2025/12/09 16:52:40 by toroman          ###   ########.fr       */
+/*   Updated: 2026/01/15 16:52:58 by toroman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 void	check(char **map)
 {
@@ -20,7 +20,7 @@ void	check(char **map)
 
 	i = 0;
 	x = 0;
-	while(map[i])
+	while (map[i])
 	{
 		j = 0;
 		while (map[i][j])
@@ -39,7 +39,6 @@ void	check(char **map)
 	}
 }
 
-
 void	check2(char **before_map)
 {
 	t_map	map;
@@ -52,17 +51,17 @@ void	check2(char **before_map)
 	{
 		split = ft_split(before_map[i], ' ');
 		if (!ft_strcmp(split[0], "NO"))
-			map.NO++;
+			map.no++;
 		if (!ft_strcmp(split[0], "SO"))
-			map.SO++;
+			map.so++;
 		if (!ft_strcmp(split[0], "EA"))
-			map.EA++;
+			map.ea++;
 		if (!ft_strcmp(split[0], "WE"))
-			map.WE++;
+			map.we++;
 		free_map(split);
 		i++;
 	}
-	if (map.NO > 1 || map.SO > 1 || map.EA > 1 || map.WE > 1)
+	if (map.no > 1 || map.so > 1 || map.ea > 1 || map.we > 1)
 	{
 		ft_error("error: coordinates not found\n", before_map);
 		exit(1);
@@ -79,7 +78,7 @@ int	paths(int c, t_map *map)
 	return (0);
 }
 
-char	**after_path(char **copy_map, char av, t_map *map)
+char	**after_path(char **copy_map, char *av, t_map *map)
 {
 	int	i;
 	int	j;
@@ -89,7 +88,7 @@ char	**after_path(char **copy_map, char av, t_map *map)
 	j = 0;
 	x = 0;
 	map->before_map = malloc(sizeof(char *) * 7);
-	while(copy_map[i])
+	while (copy_map[i])
 	{
 		map->str_trim = ft_strtrim(copy_map[i], "\t\n\f\r\v");
 		if (map->str_trim && map->str_trim[0] != '\0')
@@ -99,12 +98,12 @@ char	**after_path(char **copy_map, char av, t_map *map)
 			x++;
 		}
 		if (paths(x, map) == 1)
-			break;
+			break ;
 		i++;
 		free(map->str_trim);
-		copy_map_section(map, i, av, copy_map);
-		return (map->after_map);
 	}
+	copy_map_section(map, i, av, copy_map);
+	return (map->after_map);
 }
 
 void	copy_map_section(t_map *map, int i, char *av, char **copy_map)

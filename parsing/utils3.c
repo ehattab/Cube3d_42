@@ -6,20 +6,21 @@
 /*   By: toroman <toroman@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:53:27 by toroman           #+#    #+#             */
-/*   Updated: 2025/12/05 15:55:07 by toroman          ###   ########.fr       */
+/*   Updated: 2026/01/15 16:53:12 by toroman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 int	is_alpha(char *str)
 {
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z'))
+		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A'
+				&& str[i] <= 'Z'))
 			return (1);
 		if (str[i] == '.')
 			return (1);
@@ -30,10 +31,10 @@ int	is_alpha(char *str)
 
 int	check_xpm(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (ft_strncmp(str + ft_strlen(str) - 4, "xpm", 4))
 			return (1);
@@ -58,7 +59,6 @@ void	check_rgb(char *str)
 	}
 	free_map(split_str);
 }
-
 
 void	check_c_f(char **split_str)
 {

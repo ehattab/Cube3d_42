@@ -6,11 +6,11 @@
 /*   By: toroman <toroman@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:53:36 by toroman           #+#    #+#             */
-/*   Updated: 2025/12/09 16:21:25 by toroman          ###   ########.fr       */
+/*   Updated: 2026/01/15 16:53:40 by toroman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3d.h"
 
 char	**rectangulare_map(char **copy_map, t_map *map)
 {
@@ -23,7 +23,7 @@ char	**rectangulare_map(char **copy_map, t_map *map)
 		map->new_len = ft_strlen(copy_map[map->i]);
 		str = malloc(sizeof(char) * (map->big_len + 1));
 		map->j = 0;
-		while(map->j < map->new_len)
+		while (map->j < map->new_len)
 		{
 			if (copy_map[map->i][map->j] == ' ')
 				str[map->j] = 'V';
@@ -40,6 +40,7 @@ char	**rectangulare_map(char **copy_map, t_map *map)
 	}
 	return (copy_map);
 }
+
 char	**cpy_map(char *str)
 {
 	int		fd;
@@ -47,19 +48,22 @@ char	**cpy_map(char *str)
 	char	*line;
 	int		i;
 
+	i = 0;
 	copy_map = malloc(sizeof(char *) * (count_lines(str) + 1));
+	if (!copy_map)
+		return (NULL);
 	fd = open(str, O_RDONLY);
 	check_fd(fd);
 	line = get_next_line(fd);
-	while(line)
+	while (line)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] == '\0';
+			line[ft_strlen(line) - 1] = '\0';
 		copy_map[i++] = ft_strdup(line);
 		free(line);
 		line = get_next_line(fd);
 	}
-	copy_map[i] == NULL;
+	copy_map[i] = NULL;
 	close(fd);
 	return (copy_map);
 }
@@ -71,12 +75,11 @@ int	check_char(char *copy_map)
 	i = 0;
 	while (copy_map[i])
 	{
-		if (copy_map == ' ')
+		if (copy_map[i] == ' ')
 			i++;
-		else if ((copy_map != '0' && copy_map[i] != '1')
-			&& (copy_map[i] != 'N' && copy_map[i] != 'S') && (copy_map != 'E'
-				&& copy_map[i] != 'W') && (copy_map[i] != '\t'
-				&& copy_map[i] != '\0'))
+		else if (copy_map[i] != '0' && copy_map[i] != '1' && copy_map[i] != 'N'
+			&& copy_map[i] != 'S' && copy_map[i] != 'E' && copy_map[i] != 'W'
+			&& copy_map[i] != '\t')
 			return (1);
 		i++;
 	}
@@ -90,7 +93,7 @@ void	map_valid(char **copy_map)
 	i = 0;
 	check_double(copy_map);
 	search_position(copy_map);
-	while(copy_map[i])
+	while (copy_map[i])
 	{
 		if (check_char(copy_map[i]) == 1)
 		{

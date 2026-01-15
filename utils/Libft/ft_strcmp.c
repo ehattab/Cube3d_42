@@ -6,12 +6,11 @@
 /*   By: toroman <toroman@student.42nice.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 15:59:41 by toroman           #+#    #+#             */
-/*   Updated: 2025/11/25 16:01:07 by toroman          ###   ########.fr       */
+/*   Updated: 2026/01/15 16:45:37 by toroman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/libft.h"
-
 
 int	ft_strcmp(char *s1, char *s2)
 {
