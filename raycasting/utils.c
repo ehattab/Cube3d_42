@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 20:15:32 by ehattab           #+#    #+#             */
-/*   Updated: 2025/12/20 15:31:50 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/01/15 17:59:05 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**get_map(void)
 	map[3] = "10000011100001";
 	map[4] = "10000000000001";
 	map[5] = "10000000000001";
-	map[6] = "10000000000001";
+	map[6] = "10000000100001";
 	map[7] = "10000000000001";
 	map[8] = "10000100000001";
 	map[9] = "11111111111111";
@@ -72,4 +72,10 @@ int	close_game(t_game *game)
 	}
 	exit(0);
 	return (0);
+}
+
+void	draw_debug(t_game *game, t_player *player)
+{
+	draw_square(player->x, player->y, 10, 0x00FF00, game);
+	draw_map(game);
 }

@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 15:43:43 by toroman           #+#    #+#             */
-/*   Updated: 2025/12/12 21:57:01 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/01/15 15:43:54 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@
 // 	}
 // }
 
-void	search_position(char **map_copy, t_map *map)
+void	search_position2(char **map_copy, t_gmap *map)
 {
 	int	i;
 	int	j;

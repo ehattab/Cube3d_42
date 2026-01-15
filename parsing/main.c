@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:04:50 by tony              #+#    #+#             */
-/*   Updated: 2026/01/13 15:26:57 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/01/15 16:04:42 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 int	main(int ac, char **av)
 {
 	t_game	game;
-	t_map	map;
+	t_gmap	map;
 
 	(void)av;
 	(void)ac;
 	map.map = get_map1();
-	search_position(map.map, &map);
+	search_position2(map.map, &map);
 	map.p = map.map[map.y][map.x];
 	init_game(&game, &map);
 	mlx_hook(game.win, 2, 1L<<0, key_press, &game);

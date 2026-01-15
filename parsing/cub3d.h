@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 18:49:44 by tony              #+#    #+#             */
-/*   Updated: 2025/12/13 21:10:50 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/01/15 18:05:28 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define ESC 65307
 
 # define PI 3.14159265359
+# define P_RADIUS 10
+
 
 typedef struct s_player
 {
@@ -78,7 +80,7 @@ typedef struct s_game
 	t_player	player;
 }				t_game;
 
-typedef	struct s_map
+typedef	struct s_gmap
 {
 	char	**map;
 	int		width;
@@ -86,52 +88,51 @@ typedef	struct s_map
 	int		x;
 	int		y;
 	char	p;
-}			t_map;
+}			t_gmap;
 
+typedef struct s_ray
+{
+	float	ray_x;
+	float	ray_y;
+	float	dir_x;
+	float	dir_y;
+	float	dist;
+	float	line_height;
+	int		draw_start;
+	int		draw_end;
+	int		side;
+	float	wall_x;
+}	t_ray;
 
-// typedef	struct s_parsing
-// {
-// 	char	**map_copy;
-// 	int		width_copy;
-// };
-
-
-// void	check_fd(int fd);
-// int		check_file(char *argv);
-// int		count_lines(char *argv);
-// void	print_map(char **argv);
-// int		check_space(char *str);
-// int		check_big_len(char **map);
-// char	**map_scan(char **map, char *argv);
-// void	ft_error(char *str, char **map);
-// void	free_map(char **map);
-// int		check_nums(char *str);
-// void	check_instruction(char **beforemap);
-// void	check_path(char **beforemap);
-// void	check_double(char **map_copy);
-void	search_position(char **map_copy, t_map *map);
+void	search_position2(char **map_copy, t_gmap *map);
 int		count_lines_tab(char **tab);
-// void	error(int x, int y);
-// int		is_alpha(char *str);
-// int		check_xpm(char *str);
+
 
 //Game
-void	init_game(t_game *game, t_map *map);
+void	init_game(t_game *game, t_gmap *map);
 void	put_pixel(int x, int y, int color, t_game *game);
 void	draw_square(int x, int y, int size, int color, t_game *game);
-void	init_player(t_player *player, t_map *map);
+void	init_player(t_player *player, t_gmap *map);
 int		key_press(int keycode, t_game *game);
 int		key_release(int keycode, t_game *game);
-void	move_player(t_player *player);
+void	move_player(t_player *player, t_game *game);
 int		draw_loop(t_game *game);
 void	clear_image(t_game *game);
 char	**get_map(void);
 void	draw_map(t_game *game);
 bool	touch(float px, float py, t_game *game);
-void	draw_line(t_player *player, t_game *game, float start_x, int i);
 float	distance(float x, float y);
+void	draw_column(t_game *game, t_ray *ray, int x);
+float	fixed_dist(float x1, float y1, float x2, float y2, t_game *game);
+void	cast_ray(t_ray *ray, t_player *player, t_game *game, float angle);
+void	compute_wall(t_ray *ray);
 float	spawn_angle(char p);
 char	**get_map1(void);
 int		close_game(t_game *game);
+bool	can_move(float x, float y, t_game *game);
+void	init_texture_img(t_game *game, t_img *image, char *path);
+void	load_textures(t_game *game);
+t_img	*get_wall_texture(t_game *game, t_ray *ray);
+void	draw_debug(t_game *game, t_player *player);
 
 #endif
