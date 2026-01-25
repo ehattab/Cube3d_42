@@ -5,118 +5,88 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/14 18:49:44 by tony              #+#    #+#             */
-/*   Updated: 2025/12/12 22:30:13 by ehattab          ###   ########.fr       */
+/*   Created: 2026/01/15 16:51:02 by toroman           #+#    #+#             */
+/*   Updated: 2026/01/25 16:43:54 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-#define CUB3D_H
+# define CUB3D_H
 
-#include "../utils/header/ft_printf.h"
-#include "../utils/header/get_next_line.h"
-#include "../utils/header/libft.h"
-#include "../utils/minilibx-linux/mlx.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <stdbool.h>
+# include "../utils/header/ft_printf.h"
+# include "../utils/header/get_next_line.h"
+# include "../utils/header/libft.h"
+# include <math.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-# define WIDTH 1280
-# define HEIGHT 720
-# define BLOCK 64
-# define DEBUG 0
-
-# define W 119
-# define A 97
-# define S 115
-# define D 100
-# define LEFT 65361
-# define RIGHT 65363
-# define ESC 65307
-
-# define PI 3.14159265359
-
-typedef struct s_player
+typedef struct s_map
 {
-	float	x;
-	float	y;
-	float	angle;
-	bool	key_up;
-	bool	key_down;
-	bool	key_left;
-	bool	key_right;
-	bool	left_rotate;
-	bool	right_rotate;
-}			t_player;
-
-typedef struct s_game
-{
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*data;
-	int			bpp;
-	int			size_line;
-	int			endian;
-	t_player	player;
-	char		**map;
-}				t_game;
-
-typedef	struct s_map
-{
-	char	**map;
-	int		width;
+	char	**copy_map;
+	char	**map_valide;
+	char	**before_map;
+	char	**after_map;
+	char	**rectangular_map;
+	char	**mapp_scan;
+	char	**map_trim;
+	char	*str_trim;
+	int		big_len;
+	int		i;
+	int		j;
+	int		new_len;
+	int		start_x;
+	int		start_y;
 	int		height;
-	int		x;
-	int		y;
-	char	p;
+	int		length;
+	int		no;
+	int		so;
+	int		ea;
+	int		we;
+	t_color	floor;
+	t_color	ceiling;
+	int		floor_hex;
+	int		ceiling_hex;
 }			t_map;
 
-// typedef	struct s_parsing
-// {
-// 	char	**map_copy;
-// 	int		width_copy;
-// };
+typedef struct s_color
+{
+	int		r;
+	int		g;
+	int		b;
+}			t_color;
 
-
-// void	check_fd(int fd);
-// int		check_file(char *argv);
-// int		count_lines(char *argv);
-// void	print_map(char **argv);
-// int		check_space(char *str);
-// int		check_big_len(char **map);
-// char	**map_scan(char **map, char *argv);
-// void	ft_error(char *str, char **map);
-// void	free_map(char **map);
-// int		check_nums(char *str);
-// void	check_instruction(char **beforemap);
-// void	check_path(char **beforemap);
-// void	check_double(char **map_copy);
-void	search_position(char **map_copy, t_map *map);
-int		count_lines_tab(char **tab);
-// void	error(int x, int y);
-// int		is_alpha(char *str);
-// int		check_xpm(char *str);
-
-//Game
-void	init_game(t_game *game, t_map *map);
-void	put_pixel(int x, int y, int color, t_game *game);
-void	draw_square(int x, int y, int size, int color, t_game *game);
-void	init_player(t_player *player, t_map *map);
-int		key_press(int keycode, t_game *game);
-int		key_release(int keycode, t_game *game);
-void	move_player(t_player *player);
-int		draw_loop(t_game *game);
-void	clear_image(t_game *game);
-char	**get_map(void);
-void	draw_map(t_game *game);
-bool	touch(float px, float py, t_game *game);
-void	draw_line(t_player *player, t_game *game, float start_x, int i);
-float	distance(float x, float y);
-float	spawn_angle(char p);
-char	**get_map1(void);
-int		close_game(t_game *game);
+void		check_fd(int fd);
+int			check_file(char *argv);
+int			count_lines(char *argv);
+void		print_map(char **argv);
+int			check_space(char *str);
+int			check_big_len(char **map);
+char		**map_scan(char **map, char *argv);
+void		ft_error(char *str, char **map);
+void		free_map(char **map);
+int			check_nums(char *str);
+void		check_instruction(char **beforemap);
+void		check_path(char **beforemap);
+void		check_double(char **map_copy);
+void		search_position(char **map_copy);
+void		error(int x, int y);
+int			is_alpha(char *str);
+int			check_xpm(char *str);
+void		check_rgb(char *str);
+void		check_c_f(char **split_str);
+char		**rectangulare_map(char **copy_map, t_map *map);
+char		**cpy_map(char *str);
+int			check_char(char *copy_map);
+void		map_valid(char **copy_map);
+void		check(char **map);
+void		check2(char **before_map);
+int			paths(int c, t_map *map);
+char		**after_path(char **copy_map, char *av, t_map *map);
+void		copy_map_section(t_map *map, int i, char *av, char **copy_map);
+void		check_rectangle_map(char **map);
+void		check_map_hole(char **map, int i, int j);
+int			parse_rgb(char *line, t_color *color);
 
 #endif
