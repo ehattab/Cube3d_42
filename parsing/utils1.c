@@ -6,17 +6,17 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:16:45 by toroman           #+#    #+#             */
-/*   Updated: 2026/01/25 16:42:56 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/01/31 18:55:38 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	check_big_len(char **map)
+int check_big_len(char **map)
 {
-	int	i;
-	int	len;
-	int	big;
+	int i;
+	int len;
+	int big;
 
 	i = 0;
 	big = 0;
@@ -30,13 +30,15 @@ int	check_big_len(char **map)
 	return (big);
 }
 
-char	**map_scan(char **map, char *argv)
+char **map_scan(char **map, char *argv)
 {
-	char	**map_copy;
-	int		i;
+	char **map_copy;
+	int i;
 
 	i = 0;
-	map_copy = malloc(sizeof(char *) * ((count_lines(argv) - 6) + 1));
+	map_copy = malloc(sizeof(char *) * (count_lines(argv) + 1));
+	if (!map_copy)
+		return (NULL);
 	while (map[i])
 	{
 		map_copy[i] = ft_strdup(map[i]);
@@ -46,7 +48,7 @@ char	**map_scan(char **map, char *argv)
 	return (map_copy);
 }
 
-void	ft_error(char *str, char **map)
+void ft_error(char *str, char **map)
 {
 	printf("%s", str);
 	if (map != NULL)
@@ -54,12 +56,12 @@ void	ft_error(char *str, char **map)
 	exit(EXIT_FAILURE);
 }
 
-void	free_map(char **map)
+void free_map(char **map)
 {
-	int	i;
+	int i;
 
 	if (!map)
-		return ;
+		return;
 	i = 0;
 	while (map[i])
 	{
@@ -69,11 +71,11 @@ void	free_map(char **map)
 	free(map);
 }
 
-int	check_nums(char *str)
+int check_nums(char *str)
 {
-	int		i;
-	char	**numbers;
-	int		integer;
+	int i;
+	char **numbers;
+	int integer;
 
 	numbers = ft_split(str, ',');
 	i = 0;

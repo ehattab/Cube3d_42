@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toroman <toroman@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:33:06 by toroman           #+#    #+#             */
-/*   Updated: 2026/01/15 16:52:58 by toroman          ###   ########.fr       */
+/*   Updated: 2026/01/31 20:29:45 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,44 +78,47 @@ int	paths(int c, t_map *map)
 	return (0);
 }
 
-char	**after_path(char **copy_map, char *av, t_map *map)
+char	**after_path(char **copy_map, t_map *map)
 {
-	int	i;
-	int	j;
-	int	x;
+	int		i;
+	int		j;
+	char	*trim;
 
 	i = 0;
 	j = 0;
-	x = 0;
 	map->before_map = malloc(sizeof(char *) * 7);
-	while (copy_map[i])
+	if (!map->before_map)
+		return (NULL);
+	while (copy_map[i] && j < 6)
 	{
-		map->str_trim = ft_strtrim(copy_map[i], "\t\n\f\r\v");
-		if (map->str_trim && map->str_trim[0] != '\0')
-		{
-			map->before_map[j] = copy_map[i];
-			j++;
-			x++;
-		}
-		if (paths(x, map) == 1)
-			break ;
+		trim = ft_strtrim(copy_map[i], " \t\n\v\f\r");
+		if (trim && trim[0] != '\0')
+			map->before_map[j++] = ft_strdup(copy_map[i]);
+		free(trim);
 		i++;
-		free(map->str_trim);
 	}
-	copy_map_section(map, i, av, copy_map);
+	map->before_map[j] = NULL;
+	while (copy_map[i] && (copy_map[i][0] == '\n' || copy_map[i][0] == '\0'))
+		i++;
+	copy_map_section(map, i, copy_map);
 	return (map->after_map);
 }
 
-void	copy_map_section(t_map *map, int i, char *av, char **copy_map)
+void	copy_map_section(t_map *map, int i, char **copy_map)
 {
 	int	j;
+	int	count;
 
-	map->after_map = malloc(sizeof(char *) * ((count_lines(av) - 6) + 1));
+	count = 0;
+	while (copy_map[i + count])
+		count++;
+	map->after_map = malloc(sizeof(char *) * (count + 1));
+	if (!map->after_map)
+		ft_error("malloc error\n", NULL);
 	j = 0;
-	i++;
 	while (copy_map[i])
 	{
-		map->after_map[j] = copy_map[i];
+		map->after_map[j] = ft_strdup(copy_map[i]);
 		j++;
 		i++;
 	}

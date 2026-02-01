@@ -6,20 +6,20 @@
 #    By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/18 14:52:34 by toroman           #+#    #+#              #
-#    Updated: 2026/01/25 16:40:38 by ehattab          ###   ########.fr        #
+#    Updated: 2026/01/25 19:06:11 by ehattab          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = parsing/utils.c parsing/utils1.c parsing/utils2.c parsing/utils3.c parsing/utils4.c parsing/utils5.c parsing/parsing.c parsing/main.c\
+SRCS = parsing/utils.c parsing/main.c parsing/utils1.c parsing/utils2.c \
+parsing/utils3.c parsing/utils4.c parsing/utils5.c parsing/parsing.c \
+raycasting/game.c raycasting/player.c raycasting/utils.c \
+raycasting/texture.c raycasting/raycasting.c \
 
 OBJS = ${SRCS:.c=.o}
 NAME = cube3d
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3
 
-SRCS = parsing/utils.c parsing/main.c parsing/utils1.c parsing/utils2.c parsing/utils3.c\
-raycasting/game.c raycasting/player.c raycasting/utils.c
-OBJS = $(SRCS:.c=.o)
 
 MLX_DIR = ./utils/minilibx-linux
 UTILS_DIR = ./utils
