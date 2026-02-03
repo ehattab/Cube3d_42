@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 18:49:44 by tony              #+#    #+#             */
-/*   Updated: 2026/02/01 17:17:37 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/02 18:24:05 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ typedef struct s_map
 	int		start_y;
 	int		height;
 	int		length;
-	int		no;
-	int		so;
-	int		ea;
-	int		we;
+	char	*no_path;
+	char	*so_path;
+	char	*ea_path;
+	char	*we_path;
 	t_color	floor;
 	t_color	ceiling;
 	int		floor_hex;
@@ -87,7 +87,6 @@ int			check_nums(char *str);
 void		check_instruction(char **beforemap);
 void		check_path(char **beforemap);
 void		check_double(char **map_copy);
-// void		error(int x, int y);
 int			is_alpha(char *str);
 int			check_xpm(char *str);
 void		check_rgb(char *str);
@@ -98,12 +97,21 @@ int			check_char(char *copy_map);
 void		map_valid(char **copy_map);
 void		check(char **map);
 void		check2(char **before_map);
+void		validate_identifiers(int *c, char **before_map);
+void		count_identifiers(char **split, int *c);
 int			paths(int c, t_map *map);
 char		**after_path(char **copy_map, t_map *map);
 void		copy_map_section(t_map *map, int i, char **copy_map);
 void		check_rectangle_map(char **map);
 void		check_map_hole(char **map, int i, int j);
 int			parse_rgb(char *line, t_color *color);
+int			collect_data(t_map *map);
+void		assign_texture(t_map *map, char **split);
+void		assign_color(t_map *map, char **split);
+int			collect_data(t_map *map);
+void		free_parsing_data(t_map *map);
+void		search_position(char **map_copy, t_map *map);
+char		**replace_player_with_zero(char **map);
 
 
 typedef struct s_player
@@ -173,12 +181,11 @@ typedef struct s_ray
 void	search_position2(char **map_copy, t_gmap *map);
 int		count_lines_tab(char **tab);
 
-
 //Game
-void	init_game(t_game *game, t_gmap *map);
+void	init_game(t_game *game, t_map *map);
 void	put_pixel(int x, int y, int color, t_game *game);
 void	draw_square(int x, int y, int size, int color, t_game *game);
-void	init_player(t_player *player, t_gmap *map);
+void	init_player(t_player *player, t_map *map);
 int		key_press(int keycode, t_game *game);
 int		key_release(int keycode, t_game *game);
 void	move_player(t_player *player, t_game *game);
@@ -197,7 +204,7 @@ char	**get_map1(void);
 int		close_game(t_game *game);
 bool	can_move(float x, float y, t_game *game);
 void	init_texture_img(t_game *game, t_img *image, char *path);
-void	load_textures(t_game *game);
+void	load_textures(t_game *game, t_map *map);
 t_img	*get_wall_texture(t_game *game, t_ray *ray);
 void	draw_debug(t_game *game, t_player *player);
 

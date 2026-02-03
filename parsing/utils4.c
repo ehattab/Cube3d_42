@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:33:06 by toroman           #+#    #+#             */
-/*   Updated: 2026/01/31 20:29:45 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/01 20:36:58 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,24 @@ void	check(char **map)
 
 void	check2(char **before_map)
 {
-	t_map	map;
 	int		i;
+	int		c[6];
 	char	**split;
 
-	map = (t_map){0};
-	i = 0;
-	while (before_map[i])
+	i = -1;
+	while (++i < 6)
+		c[i] = 0;
+	i = -1;
+	while (before_map[++i])
 	{
 		split = ft_split(before_map[i], ' ');
-		if (!ft_strcmp(split[0], "NO"))
-			map.no++;
-		if (!ft_strcmp(split[0], "SO"))
-			map.so++;
-		if (!ft_strcmp(split[0], "EA"))
-			map.ea++;
-		if (!ft_strcmp(split[0], "WE"))
-			map.we++;
+		if (!split)
+			ft_error("error: malloc fail in check2\n", before_map);
+		if (split[0])
+			count_identifiers(split, c);
 		free_map(split);
-		i++;
 	}
-	if (map.no > 1 || map.so > 1 || map.ea > 1 || map.we > 1)
-	{
-		ft_error("error: coordinates not found\n", before_map);
-		exit(1);
-	}
+	validate_identifiers(c, before_map);
 }
 
 int	paths(int c, t_map *map)
@@ -123,4 +116,33 @@ void	copy_map_section(t_map *map, int i, char **copy_map)
 		i++;
 	}
 	map->after_map[j] = NULL;
+}
+
+void	count_identifiers(char **split, int *c)
+{
+	if (ft_strcmp(split[0], "NO") == 0)
+		c[0]++;
+	else if (ft_strcmp(split[0], "SO") == 0)
+		c[1]++;
+	else if (ft_strcmp(split[0], "WE") == 0)
+		c[2]++;
+	else if (ft_strcmp(split[0], "EA") == 0)
+		c[3]++;
+	else if (ft_strcmp(split[0], "F") == 0)
+		c[4]++;
+	else if (ft_strcmp(split[0], "C") == 0)
+		c[5]++;
+}
+
+void	validate_identifiers(int *c, char **before_map)
+{
+	int	i;
+
+	i = 0;
+	while (i < 6)
+	{
+		if (c[i] != 1)
+			ft_error("error: duplicate or missing identifiers\n", before_map);
+		i++;
+	}
 }

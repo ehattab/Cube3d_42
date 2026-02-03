@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:11:36 by ehattab           #+#    #+#             */
-/*   Updated: 2026/01/15 16:07:19 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/02 18:49:13 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,17 +143,17 @@ void	clear_image(t_game *game)
 	}
 }
 
-void	init_game(t_game *game, t_gmap *map)
+void	init_game(t_game *game, t_map *map)
 {
 	init_player(&game->player, map);
-	game->map = get_map();
+	game->map = replace_player_with_zero(map->rectangular_map);
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cub3d");
 	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	game->data = mlx_get_data_addr(game->img, &game->bpp,
 	&game->size_line, &game->endian);
-	game->ceil_color = (0 << 16) | (150 << 8) | 255;
-	game->floor_color = (0 << 16) | (0 << 8) | 0;
-	load_textures(game);
+	game->ceil_color = map->ceiling_hex;
+	game->floor_color = map->floor_hex;
+	load_textures(game, map);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 }

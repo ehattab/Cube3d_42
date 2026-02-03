@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toroman <toroman@student.42nice.fr>        +#+  +:+       +#+        */
+/*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 17:10:29 by toroman           #+#    #+#             */
-/*   Updated: 2026/01/15 16:53:04 by toroman          ###   ########.fr       */
+/*   Updated: 2026/02/01 20:08:51 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,60 @@ void	check_map_hole(char **map, int i, int j)
 		ft_error("error: space found inside the map\n", map);
 		exit(1);
 	}
+}
+
+void	assign_texture(t_map *map, char **split)
+{
+	if (ft_strcmp(split[0], "NO") == 0)
+		map->no_path = ft_strdup(split[1]);
+	else if (ft_strcmp(split[0], "SO") == 0)
+		map->so_path = ft_strdup(split[1]);
+	else if (ft_strcmp(split[0], "WE") == 0)
+		map->we_path = ft_strdup(split[1]);
+	else if (ft_strcmp(split[0], "EA") == 0)
+		map->ea_path = ft_strdup(split[1]);
+}
+
+void	assign_color(t_map *map, char **split)
+{
+	t_color	tmp_color;
+
+	if (ft_strcmp(split[0], "F") == 0)
+		map->floor_hex = parse_rgb(split[1], &tmp_color);
+	else if (ft_strcmp(split[0], "C") == 0)
+		map->ceiling_hex = parse_rgb(split[1], &tmp_color);
+}
+
+int	collect_data(t_map *map)
+{
+	int		i;
+	char	**split;
+
+	i = 0;
+	while (map->before_map && map->before_map[i])
+	{
+		split = ft_split(map->before_map[i], ' ');
+		if (!split)
+			return (1);
+		if (split[0] && split[1])
+		{
+			assign_texture(map, split);
+			assign_color(map, split);
+		}
+		free_map(split);
+		i++;
+	}
+	return (0);
+}
+
+void	free_parsing_data(t_map *map)
+{
+	if (map->no_path)
+		free(map->no_path);
+	if (map->so_path)
+		free(map->so_path);
+	if (map->we_path)
+		free(map->we_path);
+	if (map->ea_path)
+		free(map->ea_path);
 }
