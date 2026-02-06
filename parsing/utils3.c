@@ -80,3 +80,22 @@ void	check_c_f(char **split_str)
 	}
 	free_map(split_str);
 }
+
+void	free_full_map_data(t_map *map)
+{
+	if (!map)
+		return ;
+	if (map->no_path)
+		free(map->no_path);
+	if (map->so_path)
+		free(map->so_path);
+	if (map->we_path)
+		free(map->we_path);
+	if (map->ea_path)
+		free(map->ea_path);
+	free_map(map->copy_map);
+	free_map(map->before_map);
+	free_map(map->after_map);
+	free_map(map->mapp_scan);
+	ft_bzero(map, sizeof(t_map));
+}

@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:04:50 by tony              #+#    #+#             */
-/*   Updated: 2026/02/02 18:35:07 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 15:02:05 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	parsing(int ac, char **av, t_map *map)
 	map->mapp_scan = map_scan(map->after_map, av[1]);
 	map->rectangular_map = rectangulare_map(map->mapp_scan, map);
 	check_rectangle_map(map->rectangular_map);
-	search_position(map->copy_map, map);
+	search_position(map->rectangular_map, map);
 	return (0);
 }
 
@@ -92,6 +92,7 @@ int	main(int ac, char **av)
 
 	if (parsing(ac, av, &map))
 		return (1);
+	// print_map(map.rectangular_map);
 	init_game(&game, &map);
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
 	mlx_hook(game.win, 3, 1L << 1, key_release, &game);
