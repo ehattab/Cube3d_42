@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:53:36 by toroman           #+#    #+#             */
-/*   Updated: 2026/01/31 19:21:11 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 18:32:48 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**rectangulare_map(char **copy_map, t_map *map)
 {
-	char	*str;
+	char *str;
 
 	map->big_len = check_big_len(copy_map) + 1;
 	map->i = 0;
@@ -23,7 +23,7 @@ char	**rectangulare_map(char **copy_map, t_map *map)
 		map->new_len = ft_strlen(copy_map[map->i]);
 		str = malloc(sizeof(char) * (map->big_len + 1));
 		if (!str)
-			ft_error("malloc error\n", copy_map);
+			ft_error("malloc error\n", map);
 		map->j = 0;
 		while (map->j < map->big_len)
 		{
@@ -41,7 +41,7 @@ char	**rectangulare_map(char **copy_map, t_map *map)
 	return (copy_map);
 }
 
-char **cpy_map(char *str)
+char	**cpy_map(char *str)
 {
 	int fd;
 	char **copy_map;
@@ -82,7 +82,7 @@ char **cpy_map(char *str)
 	return (copy_map);
 }
 
-int check_char(char *line)
+int	check_char(char *line)
 {
 	int i;
 
@@ -91,8 +91,8 @@ int check_char(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] != '0' && line[i] != '1' && line[i] != 'N' && 
-			line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && 
+		if (line[i] != '0' && line[i] != '1' && line[i] != 'N' &&
+			line[i] != 'S' && line[i] != 'E' && line[i] != 'W' &&
 			line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 			return (1);
 		i++;
@@ -100,18 +100,18 @@ int check_char(char *line)
 	return (0);
 }
 
-void	map_valid(char **copy_map)
+void	map_valid(t_map *map)
 {
-	int	i;
+	int i;
 
-	if (!copy_map)
-		ft_error("Error\nMap is NULL\n", NULL);
-	check_double(copy_map);
+	if (!map->after_map)
+		ft_error("Map is NULL\n", map);
+	check_double(map);
 	i = 0;
-	while (copy_map[i])
+	while (map->after_map[i])
 	{
-		if (check_char(copy_map[i]))
-			ft_error("ERROR : invalid char inside map\n", copy_map);
+		if (check_char(map->after_map[i]))
+			ft_error("invalid char inside map\n", map);
 		i++;
 	}
 }

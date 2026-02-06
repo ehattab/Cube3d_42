@@ -6,37 +6,33 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 18:16:20 by ehattab           #+#    #+#             */
-/*   Updated: 2026/01/15 15:50:14 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 20:01:23 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing/cub3d.h"
 
-void	cast_ray(t_ray *ray, t_player *player, t_game *game, float angle)
+void	cast_ray(t_ray *ray, t_player *pl, t_game *game, float angle)
 {
-	int	prev_map_x;
-	int	map_x;
-
 	ray->dir_x = cos(angle);
 	ray->dir_y = sin(angle);
-	ray->ray_x = player->x;
-	ray->ray_y = player->y;
-	prev_map_x = ray->ray_x / BLOCK;
+	ray->ray_x = pl->x;
+	ray->ray_y = pl->y;
+	ray->prev_map_x = ray->ray_x / BLOCK;
 	while (!touch(ray->ray_x, ray->ray_y, game))
 	{
 		if (DEBUG)
 			put_pixel(ray->ray_x, ray->ray_y, 0xFF0000, game);
 		ray->ray_x += ray->dir_x;
 		ray->ray_y += ray->dir_y;
-		map_x = ray->ray_x / BLOCK;
-		if (map_x != prev_map_x)
+		ray->map_x = ray->ray_x / BLOCK;
+		if (ray->map_x != ray->prev_map_x)
 			ray->side = 0;
 		else
 			ray->side = 1;
-		prev_map_x = map_x;
+		ray->prev_map_x = ray->map_x;
 	}
-	ray->dist = fixed_dist(player->x, player->y,
-			ray->ray_x, ray->ray_y, game);
+	ray->dist = fixed_dist(pl->x, pl->y, ray->ray_x, ray->ray_y, game);
 	if (ray->side == 0)
 		ray->wall_x = ray->ray_y / BLOCK;
 	else

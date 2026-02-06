@@ -6,58 +6,11 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:04:50 by tony              #+#    #+#             */
-/*   Updated: 2026/02/06 15:02:05 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 19:35:42 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	parsing(int ac, char **av, t_map *map)
-{
-	if (ac != 2 || check_file(av[1]))
-		return (1);
-	ft_bzero(map, sizeof(t_map));
-	map->copy_map = cpy_map(av[1]);
-	if (!map->copy_map)
-		return (1);
-	map->after_map = after_path(map->copy_map, map);
-	if (!map->after_map)
-		return (1);
-	check_instruction(map->before_map);
-	check_path(map->before_map);
-	if (collect_data(map))
-		return (1);
-	map_valid(map->after_map);
-	map->mapp_scan = map_scan(map->after_map, av[1]);
-	map->rectangular_map = rectangulare_map(map->mapp_scan, map);
-	check_rectangle_map(map->rectangular_map);
-	search_position(map->rectangular_map, map);
-	return (0);
-}
-
-char	**replace_player_with_zero(char **map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == 'N' || map[i][j] == 'S'
-				|| map[i][j] == 'E' || map[i][j] == 'W')
-			{
-				map[i][j] = '0';
-				return (map);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (map);
-}
 
 int	parse_rgb(char *line, t_color *color)
 {
@@ -67,6 +20,8 @@ int	parse_rgb(char *line, t_color *color)
 	if (!line)
 		return (-1);
 	check_rgb(line);
+	if (check_nums(line)) 
+		return (-1);
 	split = ft_split(line, ',');
 	if (!split || !split[0] || !split[1] || !split[2])
 	{
@@ -78,17 +33,38 @@ int	parse_rgb(char *line, t_color *color)
 	color->g = ft_atoi(split[1]);
 	color->b = ft_atoi(split[2]);
 	free_map(split);
-	if (color->r < 0 || color->r > 255 || color->g < 0 || color->g > 255
-		|| color->b < 0 || color->b > 255)
-		ft_error("Error\nRGB values must be between 0 and 255\n", NULL);
 	hex = (color->r << 16) | (color->g << 8) | color->b;
 	return (hex);
 }
 
-int	main(int ac, char **av)
+int parsing(int ac, char **av, t_map *map)
 {
-	t_map	map;
-	t_game	game;
+	if (ac != 2 || check_file(av[1]))
+		return (1);
+	ft_bzero(map, sizeof(t_map));
+	map->copy_map = cpy_map(av[1]);
+	if (!map->copy_map)
+		return (1);
+	map->after_map = after_path(map->copy_map, map);
+	if (!map->after_map)
+		return (free_full_map_data(map), 1);
+	check_instruction(map);
+	check_path(map);
+	if (collect_data(map))
+		return (free_full_map_data(map), 1);
+	map_valid(map);
+	map->mapp_scan = map_scan(map->after_map, av[1]);
+	map->rectangular_map = rectangulare_map(map->mapp_scan, map);
+	check_rectangle_map(map);
+	search_position(map->rectangular_map, map);
+	map->height = count_lines_tab(map->rectangular_map);
+	return (0);
+}
+
+int main(int ac, char **av)
+{
+	t_map map;
+	t_game game;
 
 	if (parsing(ac, av, &map))
 		return (1);

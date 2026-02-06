@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:53:27 by toroman           #+#    #+#             */
-/*   Updated: 2026/01/31 18:49:41 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 19:33:36 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 int	is_alpha(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (str[i])
 	{
-		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A'
-				&& str[i] <= 'Z'))
+		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z'))
 			return (1);
 		if (str[i] == '.')
 			return (1);
@@ -31,7 +30,7 @@ int	is_alpha(char *str)
 
 int	check_xpm(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (str[i])
@@ -42,7 +41,7 @@ int	check_xpm(char *str)
 	return (0);
 }
 
-void	check_rgb(char *str)
+int	check_rgb(char *str)
 {
 	int		i;
 	char	**split_str;
@@ -51,51 +50,30 @@ void	check_rgb(char *str)
 	split_str = ft_split(str, ',');
 	while (split_str[i])
 		i++;
-	if (i < 3 || i > 3)
+	if (i != 3)
 	{
-		printf("error: RGB is not right\n");
 		free_map(split_str);
-		exit(1);
+		return (1);
 	}
 	free_map(split_str);
+	return (0);
 }
 
-void	check_c_f(char **split_str)
+void	check_c_f(char **split_str, t_map *map)
 {
 	if (!ft_strcmp(split_str[0], "C") || !ft_strcmp(split_str[0], "F"))
 	{
 		if (check_nums(split_str[1]) == 1)
 		{
-			printf("error: RGB out of range\n");
 			free_map(split_str);
-			exit(1);
+			ft_error("RGB out of range\n", map);
 		}
 		if (is_alpha(split_str[1]) == 1)
 		{
-			printf("error: numbers only\n");
 			free_map(split_str);
-			exit(1);
+			ft_error("numbers only\n", map);
 		}
 		check_rgb(split_str[1]);
 	}
 	free_map(split_str);
-}
-
-void	free_full_map_data(t_map *map)
-{
-	if (!map)
-		return ;
-	if (map->no_path)
-		free(map->no_path);
-	if (map->so_path)
-		free(map->so_path);
-	if (map->we_path)
-		free(map->we_path);
-	if (map->ea_path)
-		free(map->ea_path);
-	free_map(map->copy_map);
-	free_map(map->before_map);
-	free_map(map->after_map);
-	free_map(map->mapp_scan);
-	ft_bzero(map, sizeof(t_map));
 }

@@ -6,24 +6,24 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 17:10:29 by toroman           #+#    #+#             */
-/*   Updated: 2026/02/01 20:08:51 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 19:28:23 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_rectangle_map(char **map)
+void check_rectangle_map(t_map *map)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
-	while (map[i])
+	while (map->rectangular_map[i])
 	{
 		j = 0;
-		while (map[i][j])
+		while (map->rectangular_map[i][j])
 		{
-			if (map[i][j] == 'V')
+			if (map->rectangular_map[i][j] == 'V')
 				check_map_hole(map, i, j);
 			j++;
 		}
@@ -31,24 +31,25 @@ void	check_rectangle_map(char **map)
 	}
 }
 
-void	check_map_hole(char **map, int i, int j)
+void check_map_hole(t_map *map, int i, int j)
 {
-	if ((map[i + 1] && (map[i + 1][j] == '0' || map[i + 1][j] == 'N' || map[i
-			+ 1][j] == 'S' || map[i + 1][j] == 'E' || map[i + 1][j] == 'W'))
-		|| (i > 0 && (map[i - 1][j] == '0' || map[i - 1][j] == 'N' || map[i
-				- 1][j] == 'S' || map[i - 1][j] == 'E' || map[i - 1][j] == 'W'))
-		|| (map[i][j + 1] && (map[i][j + 1] == '0' || map[i][j + 1] == 'N'
-				|| map[i][j + 1] == 'S' || map[i][j + 1] == 'E' || map[i][j
-				+ 1] == 'W')) || (j > 0 && (map[i][j - 1] == '0' || map[i][j
-				- 1] == 'N' || map[i][j - 1] == 'S' || map[i][j - 1] == 'E'
-				|| map[i][j - 1] == 'W')))
+	char **m;
+
+	m = map->rectangular_map;
+	if ((m[i + 1] && (m[i + 1][j] == '0' || m[i + 1][j] == 'N' ||
+					  m[i + 1][j] == 'S' || m[i + 1][j] == 'E' || m[i + 1][j] == 'W')) ||
+		(i > 0 && (m[i - 1][j] == '0' || m[i - 1][j] == 'N' ||
+				   m[i - 1][j] == 'S' || m[i - 1][j] == 'E' || m[i - 1][j] == 'W')) ||
+		(m[i][j + 1] && (m[i][j + 1] == '0' || m[i][j + 1] == 'N' ||
+						 m[i][j + 1] == 'S' || m[i][j + 1] == 'E' || m[i][j + 1] == 'W')) ||
+		(j > 0 && (m[i][j - 1] == '0' || m[i][j - 1] == 'N' ||
+				   m[i][j - 1] == 'S' || m[i][j - 1] == 'E' || m[i][j - 1] == 'W')))
 	{
-		ft_error("error: space found inside the map\n", map);
-		exit(1);
+		ft_error("space found inside the map\n", map);
 	}
 }
 
-void	assign_texture(t_map *map, char **split)
+void assign_texture(t_map *map, char **split)
 {
 	if (ft_strcmp(split[0], "NO") == 0)
 		map->no_path = ft_strdup(split[1]);
@@ -60,20 +61,32 @@ void	assign_texture(t_map *map, char **split)
 		map->ea_path = ft_strdup(split[1]);
 }
 
-void	assign_color(t_map *map, char **split)
+int assign_color(t_map *map, char **split)
 {
-	t_color	tmp_color;
+	t_color tmp_color;
+	int hex;
 
 	if (ft_strcmp(split[0], "F") == 0)
-		map->floor_hex = parse_rgb(split[1], &tmp_color);
+	{
+		hex = parse_rgb(split[1], &tmp_color);
+		if (hex == -1)
+			return (1);
+		map->floor_hex = hex;
+	}
 	else if (ft_strcmp(split[0], "C") == 0)
-		map->ceiling_hex = parse_rgb(split[1], &tmp_color);
+	{
+		hex = parse_rgb(split[1], &tmp_color);
+		if (hex == -1)
+			return (1);
+		map->ceiling_hex = hex;
+	}
+	return (0);
 }
 
-int	collect_data(t_map *map)
+int collect_data(t_map *map)
 {
-	int		i;
-	char	**split;
+	int i;
+	char **split;
 
 	i = 0;
 	while (map->before_map && map->before_map[i])
@@ -84,22 +97,16 @@ int	collect_data(t_map *map)
 		if (split[0] && split[1])
 		{
 			assign_texture(map, split);
-			assign_color(map, split);
+			if (assign_color(map, split))
+			{
+				free_map(split);
+				return (1);
+			}
 		}
+		else
+			free_map(split);
 		free_map(split);
 		i++;
 	}
 	return (0);
-}
-
-void	free_parsing_data(t_map *map)
-{
-	if (map->no_path)
-		free(map->no_path);
-	if (map->so_path)
-		free(map->so_path);
-	if (map->we_path)
-		free(map->we_path);
-	if (map->ea_path)
-		free(map->ea_path);
 }

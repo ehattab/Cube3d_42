@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 18:49:44 by tony              #+#    #+#             */
-/*   Updated: 2026/02/02 18:24:05 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 19:53:40 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
 # define WIDTH 1280
 # define HEIGHT 720
 # define BLOCK 64
@@ -73,47 +74,6 @@ typedef struct s_map
 	int		ceiling_hex;
 }			t_map;
 
-
-void		check_fd(int fd);
-int			check_file(char *argv);
-int			count_lines(char *argv);
-void		print_map(char **argv);
-int			check_space(char *str);
-int			check_big_len(char **map);
-char		**map_scan(char **map, char *argv);
-void		ft_error(char *str, char **map);
-void		free_map(char **map);
-int			check_nums(char *str);
-void		check_instruction(char **beforemap);
-void		check_path(char **beforemap);
-void		check_double(char **map_copy);
-int			is_alpha(char *str);
-int			check_xpm(char *str);
-void		check_rgb(char *str);
-void		check_c_f(char **split_str);
-char		**rectangulare_map(char **copy_map, t_map *map);
-char		**cpy_map(char *str);
-int			check_char(char *copy_map);
-void		map_valid(char **copy_map);
-void		check(char **map);
-void		check2(char **before_map);
-void		validate_identifiers(int *c, char **before_map);
-void		count_identifiers(char **split, int *c);
-int			paths(int c, t_map *map);
-char		**after_path(char **copy_map, t_map *map);
-void		copy_map_section(t_map *map, int i, char **copy_map);
-void		check_rectangle_map(char **map);
-void		check_map_hole(char **map, int i, int j);
-int			parse_rgb(char *line, t_color *color);
-int			collect_data(t_map *map);
-void		assign_texture(t_map *map, char **split);
-void		assign_color(t_map *map, char **split);
-int			collect_data(t_map *map);
-void		free_parsing_data(t_map *map);
-void		search_position(char **map_copy, t_map *map);
-char		**replace_player_with_zero(char **map);
-
-
 typedef struct s_player
 {
 	float	x;
@@ -152,17 +112,8 @@ typedef struct s_game
 	int			size_line;
 	t_img		texture[4];
 	t_player	player;
+	t_map		*map_data;
 }				t_game;
-
-typedef	struct s_gmap
-{
-	char	**map;
-	int		width;
-	int		height;
-	int		x;
-	int		y;
-	char	p;
-}			t_gmap;
 
 typedef struct s_ray
 {
@@ -176,10 +127,44 @@ typedef struct s_ray
 	int		draw_end;
 	int		side;
 	float	wall_x;
+	int		prev_map_x;
+	int		map_x;
 }	t_ray;
 
-void	search_position2(char **map_copy, t_gmap *map);
-int		count_lines_tab(char **tab);
+void		check_fd(int fd);
+int			check_file(char *argv);
+int			count_lines(char *argv);
+void		print_map(char **argv);
+int			check_space(char *str);
+int			check_big_len(char **map);
+char		**map_scan(char **map, char *argv);
+void		ft_error(char *str, t_map *map);
+void		free_map(char **map);
+int			check_nums(char *str);
+void		check_instruction(t_map *map);
+void		check_path(t_map *map);
+void		check_double(t_map *map);
+int			is_alpha(char *str);
+int			check_xpm(char *str);
+int			check_rgb(char *str);
+void		check_c_f(char **split_str, t_map *map);
+char		**rectangulare_map(char **copy_map, t_map *map);
+char		**cpy_map(char *str);
+int			check_char(char *copy_map);
+void		map_valid(t_map *map);
+char		**after_path(char **copy_map, t_map *map);
+void		copy_map_section(t_map *map, int i, char **copy_map);
+void		check_rectangle_map(t_map *map);
+void		check_map_hole(t_map *map, int i, int j);
+int			parse_rgb(char *line, t_color *color);
+int			collect_data(t_map *map);
+void		assign_texture(t_map *map, char **split);
+void		assign_texture(t_map *map, char **split);
+int			collect_data(t_map *map);
+void		search_position(char **map_copy, t_map *map);
+char		**replace_player_with_zero(char **map);
+int			count_lines_tab(char **tab);
+void		free_full_map_data(t_map *map);
 
 //Game
 void	init_game(t_game *game, t_map *map);
@@ -191,7 +176,6 @@ int		key_release(int keycode, t_game *game);
 void	move_player(t_player *player, t_game *game);
 int		draw_loop(t_game *game);
 void	clear_image(t_game *game);
-char	**get_map(void);
 void	draw_map(t_game *game);
 bool	touch(float px, float py, t_game *game);
 float	distance(float x, float y);
@@ -200,7 +184,6 @@ float	fixed_dist(float x1, float y1, float x2, float y2, t_game *game);
 void	cast_ray(t_ray *ray, t_player *player, t_game *game, float angle);
 void	compute_wall(t_ray *ray);
 float	spawn_angle(char p);
-char	**get_map1(void);
 int		close_game(t_game *game);
 bool	can_move(float x, float y, t_game *game);
 void	init_texture_img(t_game *game, t_img *image, char *path);

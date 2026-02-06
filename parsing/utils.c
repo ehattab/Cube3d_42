@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:51:41 by tony              #+#    #+#             */
-/*   Updated: 2026/01/25 16:43:22 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 18:33:25 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	check_fd(int fd)
 {
 	if (fd == -1)
 	{
-		printf("map its not accessible\n");
+		printf("Error\n Map its not accessible\n");
 		close(fd);
 		exit(1);
 	}
@@ -26,7 +26,7 @@ int	check_file(char *argv)
 {
 	if (ft_strncmp(argv + ft_strlen(argv) - 4, ".cub", 4))
 	{
-		printf("this file is not .cub\n");
+		printf("Error\n This file is not .cub\n");
 		exit(1);
 	}
 	return (0);

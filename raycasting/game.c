@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:11:36 by ehattab           #+#    #+#             */
-/*   Updated: 2026/02/02 18:49:13 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 19:37:41 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,10 @@ bool	touch(float px, float py, t_game *game)
 {
 	int	x;
 	int	y;
-	int	height;
 
 	x = px / BLOCK;
 	y = py / BLOCK;
-	height = count_lines_tab(game->map);
-	if (y < 0 || y >= height)
+	if (y < 0 || y >= game->map_data->height)
 		return (true);
 	if (x < 0 || x >= (int)ft_strlen(game->map[y]))
 		return (true);
@@ -145,6 +143,7 @@ void	clear_image(t_game *game)
 
 void	init_game(t_game *game, t_map *map)
 {
+	game->map_data = map;
 	init_player(&game->player, map);
 	game->map = replace_player_with_zero(map->rectangular_map);
 	game->mlx = mlx_init();

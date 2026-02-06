@@ -6,45 +6,11 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 20:15:32 by ehattab           #+#    #+#             */
-/*   Updated: 2026/01/15 17:59:05 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 18:41:34 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing/cub3d.h"
-
-char	**get_map(void)
-{
-	char	**map = malloc(sizeof(char *) * 11);
-	map[0] = "11111111111111";
-	map[1] = "10000000000001";
-	map[2] = "10000000000001";
-	map[3] = "10000011100001";
-	map[4] = "10000000000001";
-	map[5] = "10000000000001";
-	map[6] = "10000000100001";
-	map[7] = "10000000000001";
-	map[8] = "10000100000001";
-	map[9] = "11111111111111";
-	map[10] = NULL;
-	return (map);
-}
-
-char	**get_map1(void)
-{
-	char	**map = malloc(sizeof(char *) * 11);
-	map[0] = "11111111111111";
-	map[1] = "10000000000001";
-	map[2] = "10000S00000001";
-	map[3] = "10000011100001";
-	map[4] = "10000000000001";
-	map[5] = "10000000000001";
-	map[6] = "10000000000001";
-	map[7] = "10000000000001";
-	map[8] = "10000100000001";
-	map[9] = "11111111111111";
-	map[10] = NULL;
-	return (map);
-}
 
 float	spawn_angle(char p)
 {
@@ -61,6 +27,15 @@ float	spawn_angle(char p)
 
 int	close_game(t_game *game)
 {
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (game->texture[i].img)
+			mlx_destroy_image(game->mlx, game->texture[i].img);
+		i++;
+	}
 	if (game->img)
 		mlx_destroy_image(game->mlx, game->img);
 	if (game->win)
@@ -70,6 +45,8 @@ int	close_game(t_game *game)
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}
+	if (game->map_data)
+		free_full_map_data(game->map_data);
 	exit(0);
 	return (0);
 }

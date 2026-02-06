@@ -6,40 +6,36 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 15:43:43 by toroman           #+#    #+#             */
-/*   Updated: 2026/02/01 21:23:52 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/06 19:29:49 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_path(char **beforemap)
+void check_path(t_map *map)
 {
-	char	**split_path;
-	int		i;
-	int		fd;
+	char **split_path;
+	int i;
+	int fd;
 
 	i = 0;
-	while (beforemap[i])
+	while (map->before_map[i])
 	{
-		split_path = ft_split(beforemap[i], ' ');
+		split_path = ft_split(map->before_map[i], ' ');
 		if (!split_path)
-			ft_error("malloc error\n", beforemap);
-
-		if (!ft_strcmp(split_path[0], "NO")
-			|| !ft_strcmp(split_path[0], "SO")
-			|| !ft_strcmp(split_path[0], "WE")
-			|| !ft_strcmp(split_path[0], "EA"))
+			ft_error("malloc error\n", map);
+		if (!ft_strcmp(split_path[0], "NO") || !ft_strcmp(split_path[0], "SO") || !ft_strcmp(split_path[0], "WE") || !ft_strcmp(split_path[0], "EA"))
 		{
 			if (!split_path[1])
 			{
 				free_map(split_path);
-				ft_error("error: invalid texture path\n", beforemap);
+				ft_error("invalid texture path\n", map);
 			}
 			fd = open(split_path[1], O_RDONLY);
 			if (fd == -1)
 			{
 				free_map(split_path);
-				ft_error("error: path not found\n", beforemap);
+				ft_error("path not found\n", map);
 			}
 			close(fd);
 		}
@@ -48,65 +44,55 @@ void	check_path(char **beforemap)
 	}
 }
 
-void	check_instruction(char **beforemap)
+void check_instruction(t_map *map)
 {
-	int		i;
-	int		c;
-	char	**split_path;
+	int i;
+	int c;
+	char **split_path;
 
 	i = 0;
 	c = 0;
-	while (beforemap[i])
+	while (map->before_map[i])
 	{
-		split_path = ft_split(beforemap[i], ' ');
+		split_path = ft_split(map->before_map[i], ' ');
 		if (!split_path)
-			ft_error("malloc error\n", beforemap);
-
-		if (!ft_strcmp(split_path[0], "NO")
-			|| !ft_strcmp(split_path[0], "SO")
-			|| !ft_strcmp(split_path[0], "WE")
-			|| !ft_strcmp(split_path[0], "EA")
-			|| !ft_strcmp(split_path[0], "F")
-			|| !ft_strcmp(split_path[0], "C"))
+			ft_error("malloc error\n", map);
+		if (!ft_strcmp(split_path[0], "NO") || !ft_strcmp(split_path[0], "SO") || !ft_strcmp(split_path[0], "WE") || !ft_strcmp(split_path[0], "EA") || !ft_strcmp(split_path[0], "F") || !ft_strcmp(split_path[0], "C"))
 			c++;
 		free_map(split_path);
 		i++;
 	}
 	if (c != 6)
-		ft_error("error: instruction not correct\n", beforemap);
+		ft_error("Instruction not correct\n", map);
 }
 
-void	check_double(char **map_copy)
+void check_double(t_map *map)
 {
-	int	i;
-	int	j;
-	int	count;
+	int i;
+	int j;
+	int count;
 
 	i = 0;
 	count = 0;
-	while (map_copy[i])
+	while (map->after_map[i])
 	{
 		j = 0;
-		while (map_copy[i][j])
+		while (map->after_map[i][j])
 		{
-			if (map_copy[i][j] == 'N'
-				|| map_copy[i][j] == 'S'
-				|| map_copy[i][j] == 'E'
-				|| map_copy[i][j] == 'W')
+			if (map->after_map[i][j] == 'N' || map->after_map[i][j] == 'S' || map->after_map[i][j] == 'E' || map->after_map[i][j] == 'W')
 				count++;
 			j++;
 		}
 		i++;
 	}
 	if (count != 1)
-		ft_error("Error\nMap must have exactly one player position\n",
-			map_copy);
+		ft_error("Map must have exactly one player position\n", map);
 }
 
-void	search_position2(char **map_copy, t_gmap *gmap)
+void search_position(char **map_copy, t_map *map)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	while (map_copy[i])
@@ -114,40 +100,11 @@ void	search_position2(char **map_copy, t_gmap *gmap)
 		j = 0;
 		while (map_copy[i][j])
 		{
-			if (map_copy[i][j] == 'N'
-				|| map_copy[i][j] == 'S'
-				|| map_copy[i][j] == 'E'
-				|| map_copy[i][j] == 'W')
-			{
-				gmap->y = i;
-				gmap->x = j;
-				return ;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	search_position(char **map_copy, t_map *map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (map_copy[i])
-	{
-		j = 0;
-		while (map_copy[i][j])
-		{
-			if (map_copy[i][j] == 'N'
-				|| map_copy[i][j] == 'S'
-				|| map_copy[i][j] == 'E'
-				|| map_copy[i][j] == 'W')
+			if (map_copy[i][j] == 'N' || map_copy[i][j] == 'S' || map_copy[i][j] == 'E' || map_copy[i][j] == 'W')
 			{
 				map->start_y = i;
 				map->start_x = j;
-				return ;
+				return;
 			}
 			j++;
 		}
@@ -155,9 +112,9 @@ void	search_position(char **map_copy, t_map *map)
 	}
 }
 
-int	count_lines_tab(char **tab)
+int count_lines_tab(char **tab)
 {
-	int	i;
+	int i;
 
 	if (!tab)
 		return (0);
