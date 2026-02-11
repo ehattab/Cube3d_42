@@ -6,19 +6,14 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 18:16:20 by ehattab           #+#    #+#             */
-/*   Updated: 2026/02/06 20:01:23 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/11 16:54:17 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing/cub3d.h"
 
-void	cast_ray(t_ray *ray, t_player *pl, t_game *game, float angle)
+void	trace_ray(t_ray *ray, t_game *game)
 {
-	ray->dir_x = cos(angle);
-	ray->dir_y = sin(angle);
-	ray->ray_x = pl->x;
-	ray->ray_y = pl->y;
-	ray->prev_map_x = ray->ray_x / BLOCK;
 	while (!touch(ray->ray_x, ray->ray_y, game))
 	{
 		if (DEBUG)
@@ -32,7 +27,24 @@ void	cast_ray(t_ray *ray, t_player *pl, t_game *game, float angle)
 			ray->side = 1;
 		ray->prev_map_x = ray->map_x;
 	}
-	ray->dist = fixed_dist(pl->x, pl->y, ray->ray_x, ray->ray_y, game);
+}
+
+void	cast_ray(t_ray *ray, t_player *pl, t_game *game, float angle)
+{
+	float	p1[2];
+	float	p2[2];
+
+	ray->dir_x = cos(angle);
+	ray->dir_y = sin(angle);
+	ray->ray_x = pl->x;
+	ray->ray_y = pl->y;
+	ray->prev_map_x = ray->ray_x / BLOCK;
+	trace_ray(ray, game);
+	p1[0] = pl->x;
+	p1[1] = pl->y;
+	p2[0] = ray->ray_x;
+	p2[1] = ray->ray_y;
+	ray->dist = fixed_dist(p1, p2, game);
 	if (ray->side == 0)
 		ray->wall_x = ray->ray_y / BLOCK;
 	else
@@ -40,15 +52,13 @@ void	cast_ray(t_ray *ray, t_player *pl, t_game *game, float angle)
 	ray->wall_x -= floor(ray->wall_x);
 }
 
-
 void	draw_wall(t_game *game, t_ray *ray, int x)
 {
 	t_img	*tex;
-	int		y;
 	int		tex_x;
-	int		tex_y;
 	float	step;
 	float	tex_pos;
+	int		y;
 
 	tex = get_wall_texture(game, ray);
 	tex_x = ray->wall_x * tex->width;
@@ -58,16 +68,13 @@ void	draw_wall(t_game *game, t_ray *ray, int x)
 	y = ray->draw_start;
 	while (y < ray->draw_end && y < HEIGHT)
 	{
-		tex_y = (int)tex_pos & (tex->height - 1);
-		tex_pos += step;
 		put_pixel(x, y, *(int *)(tex->data
-			+ tex_y * tex->size_line
-			+ tex_x * (tex->bpp / 8)),
-			game);
+				+ ((int)tex_pos & (tex->height - 1)) * tex->size_line
+				+ tex_x * (tex->bpp / 8)), game);
+		tex_pos += step;
 		y++;
 	}
 }
-
 
 void	draw_column(t_game *game, t_ray *ray, int x)
 {
@@ -81,7 +88,6 @@ void	draw_column(t_game *game, t_ray *ray, int x)
 		put_pixel(x, y, game->ceil_color, game);
 		y++;
 	}
-	y = ray->draw_start;
 	draw_wall(game, ray, x);
 	y = ray->draw_end;
 	while (y < HEIGHT)

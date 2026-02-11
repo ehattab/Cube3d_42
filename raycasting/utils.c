@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 20:15:32 by ehattab           #+#    #+#             */
-/*   Updated: 2026/02/06 18:41:34 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/11 19:46:27 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,17 @@ int	close_game(t_game *game)
 		free(game->mlx);
 	}
 	if (game->map_data)
-		free_full_map_data(game->map_data);
+		free_map_data(game->map_data);
 	exit(0);
 	return (0);
 }
 
 void	draw_debug(t_game *game, t_player *player)
 {
-	draw_square(player->x, player->y, 10, 0x00FF00, game);
+	int	pos[2];
+
+	pos[0] = player->x;
+	pos[1] = player->y;
+	draw_square(pos, 10, 0x00FF00, game);
 	draw_map(game);
 }

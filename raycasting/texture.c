@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 19:31:13 by ehattab           #+#    #+#             */
-/*   Updated: 2026/02/02 18:18:39 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/11 16:54:17 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	init_texture_img(t_game *game, t_img *image, char *path)
 
 void	load_textures(t_game *game, t_map *map)
 {
-	init_texture_img(game, &game->texture[0], map->no_path); //N
-	init_texture_img(game, &game->texture[1], map->so_path); //S
-	init_texture_img(game, &game->texture[2], map->we_path); //W
-	init_texture_img(game, &game->texture[3], map->ea_path); //E
+	init_texture_img(game, &game->texture[0], map->no_path);
+	init_texture_img(game, &game->texture[1], map->so_path);
+	init_texture_img(game, &game->texture[2], map->we_path);
+	init_texture_img(game, &game->texture[3], map->ea_path);
 }
 
 t_img	*get_wall_texture(t_game *game, t_ray *ray)

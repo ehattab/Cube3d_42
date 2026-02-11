@@ -6,28 +6,31 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:51:41 by tony              #+#    #+#             */
-/*   Updated: 2026/02/06 18:33:25 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/11 19:46:27 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_fd(int fd)
-{
-	if (fd == -1)
-	{
-		printf("Error\n Map its not accessible\n");
-		close(fd);
-		exit(1);
-	}
-}
-
 int	check_file(char *argv)
 {
-	if (ft_strncmp(argv + ft_strlen(argv) - 4, ".cub", 4))
+	int	len;
+
+	if (!argv)
 	{
-		printf("Error\n This file is not .cub\n");
-		exit(1);
+		printf("Error\nMap file path is invalid\n");
+		return (1);
+	}
+	len = ft_strlen(argv);
+	if (len < 5)
+	{
+		printf("Error\nMap file name is too short\n");
+		return (1);
+	}
+	if (ft_strncmp(argv + len - 4, ".cub", 4))
+	{
+		printf("Error\nMap file must end with .cub\n");
+		return (1);
 	}
 	return (0);
 }
@@ -40,6 +43,8 @@ int	count_lines(char *argv)
 
 	i = 0;
 	fd = open(argv, O_RDONLY);
+	if (fd < 0)
+		return (0);
 	lines = get_next_line(fd);
 	while (lines)
 	{
@@ -51,28 +56,33 @@ int	count_lines(char *argv)
 	return (i);
 }
 
-void	print_map(char **argv)
+int	count_tab_lines(char **tab)
 {
 	int	i;
 
+	if (!tab)
+		return (0);
 	i = 0;
-	while (argv[i])
-	{
-		printf("%s\n", argv[i]);
+	while (tab[i])
 		i++;
-	}
+	return (i);
 }
 
-int	check_space(char *str)
+void	replace_spaces(char **map_lines)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (str[i])
+	while (map_lines[i])
 	{
-		if (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-			return (1);
+		j = 0;
+		while (map_lines[i][j])
+		{
+			if (map_lines[i][j] == ' ')
+				map_lines[i][j] = '0';
+			j++;
+		}
 		i++;
 	}
-	return (0);
 }

@@ -6,38 +6,43 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:53:27 by toroman           #+#    #+#             */
-/*   Updated: 2026/02/06 19:33:36 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/11 19:46:27 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	is_alpha(char *str)
+int	check_num(char *num)
 {
-	int i;
+	int	j;
+	int	value;
 
-	i = 0;
-	while (str[i])
+	j = 0;
+	while (num[j])
 	{
-		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z'))
+		if (!ft_isdigit(num[j]) && num[j] != '\n')
 			return (1);
-		if (str[i] == '.')
-			return (1);
-		i++;
+		j++;
 	}
+	if (j == 0)
+		return (1);
+	value = ft_atoi(num);
+	if (value < 0 || value > 255)
+		return (1);
 	return (0);
 }
 
 int	check_xpm(char *str)
 {
-	int i;
+	int	len;
 
-	i = 0;
-	while (str[i])
-	{
-		if (ft_strncmp(str + ft_strlen(str) - 4, "xpm", 4))
-			return (1);
-	}
+	if (!str)
+		return (1);
+	len = ft_strlen(str);
+	if (len < 4)
+		return (1);
+	if (ft_strncmp(str + len - 4, ".xpm", 4))
+		return (1);
 	return (0);
 }
 
@@ -46,8 +51,12 @@ int	check_rgb(char *str)
 	int		i;
 	char	**split_str;
 
-	i = 0;
+	if (!str)
+		return (1);
 	split_str = ft_split(str, ',');
+	if (!split_str)
+		return (1);
+	i = 0;
 	while (split_str[i])
 		i++;
 	if (i != 3)
@@ -59,21 +68,21 @@ int	check_rgb(char *str)
 	return (0);
 }
 
-void	check_c_f(char **split_str, t_map *map)
+int	is_map(char *trimmed)
 {
-	if (!ft_strcmp(split_str[0], "C") || !ft_strcmp(split_str[0], "F"))
+	int	k;
+
+	if (!trimmed || !trimmed[0])
+		return (0);
+	k = 0;
+	while (trimmed[k])
 	{
-		if (check_nums(split_str[1]) == 1)
-		{
-			free_map(split_str);
-			ft_error("RGB out of range\n", map);
-		}
-		if (is_alpha(split_str[1]) == 1)
-		{
-			free_map(split_str);
-			ft_error("numbers only\n", map);
-		}
-		check_rgb(split_str[1]);
+		if (trimmed[k] != '0' && trimmed[k] != '1'
+			&& trimmed[k] != 'N' && trimmed[k] != 'S'
+			&& trimmed[k] != 'E' && trimmed[k] != 'W'
+			&& trimmed[k] != ' ' && trimmed[k] != '\t')
+			return (0);
+		k++;
 	}
-	free_map(split_str);
+	return (1);
 }
