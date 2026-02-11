@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:33:06 by toroman           #+#    #+#             */
-/*   Updated: 2026/02/11 19:46:27 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/11 21:07:04 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	extract_map(t_map *map, int i, char **copy_map)
 	map->after_map = malloc(sizeof(char *) * (count + 1));
 	if (!map->after_map)
 		ft_error("Memory allocation failed\n", map);
+	if (check_mixed_ws(&copy_map[i], count))
+		ft_error("Map uses mixed tabs and spaces\n", map);
 	expand_map_tabs(&copy_map[i], count, map);
 	min_indent = get_min_indent(&copy_map[i]);
 	j = 0;

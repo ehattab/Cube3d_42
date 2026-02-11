@@ -5,60 +5,57 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 15:43:43 by toroman           #+#    #+#             */
-/*   Updated: 2026/02/11 19:46:27 by ehattab          ###   ########.fr       */
+/*   Created: 2026/11/25 16:31:06 by toroman           #+#    #+#             */
+/*   Updated: 2026/02/11 21:50:50 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_texture(char **sp, t_map *map)
-{
-	int	fd;
-
-	if (!sp[1])
-	{
-		free_map(sp);
-		ft_error("Texture path is missing\n", map);
-	}
-	if (check_xpm(sp[1]))
-	{
-		free_map(sp);
-		ft_error("Texture file must have .xpm extension\n", map);
-	}
-	fd = open(sp[1], O_RDONLY);
-	if (fd == -1)
-	{
-		free_map(sp);
-		ft_error("Failed to open texture file\n", map);
-	}
-	close(fd);
-}
-
 int	is_texture(char *id)
 {
+	if (!id)
+		return (0);
 	if (!ft_strcmp(id, "NO") || !ft_strcmp(id, "SO")
 		|| !ft_strcmp(id, "WE") || !ft_strcmp(id, "EA"))
 		return (1);
 	return (0);
 }
 
+void	check_texture(char **sp, t_map *map)
+{
+	if (!sp || !sp[0] || !sp[1])
+		ft_error("Invalid texture configuration\n", map);
+	if (!is_texture(sp[0]))
+		return ;
+	if (sp[2])
+		ft_error("Too many arguments for texture path\n", map);
+	if (check_xpm(sp[1]))
+		ft_error("Texture file must be .xpm format\n", map);
+}
+
 void	check_path(t_map *map)
 {
-	char	**sp;
-	int		i;
+	int	fd;
 
-	i = 0;
-	while (map->before_map[i])
-	{
-		sp = ft_split(map->before_map[i], ' ');
-		if (!sp)
-			ft_error("Memory allocation failed\n", map);
-		if (is_texture(sp[0]))
-			check_texture(sp, map);
-		free_map(sp);
-		i++;
-	}
+	if (!map->no_path || !map->so_path || !map->we_path || !map->ea_path)
+		ft_error("Missing texture path(s)\n", map);
+	fd = open(map->no_path, O_RDONLY);
+	if (fd < 0)
+		ft_error("Cannot open NO texture file\n", map);
+	close(fd);
+	fd = open(map->so_path, O_RDONLY);
+	if (fd < 0)
+		ft_error("Cannot open SO texture file\n", map);
+	close(fd);
+	fd = open(map->we_path, O_RDONLY);
+	if (fd < 0)
+		ft_error("Cannot open WE texture file\n", map);
+	close(fd);
+	fd = open(map->ea_path, O_RDONLY);
+	if (fd < 0)
+		ft_error("Cannot open EA texture file\n", map);
+	close(fd);
 }
 
 void	check_player_count(t_map *map)
@@ -67,23 +64,24 @@ void	check_player_count(t_map *map)
 	int	j;
 	int	count;
 
-	i = 0;
 	count = 0;
+	i = 0;
 	while (map->after_map[i])
 	{
 		j = 0;
 		while (map->after_map[i][j])
 		{
 			if (map->after_map[i][j] == 'N' || map->after_map[i][j] == 'S'
-				|| map->after_map[i][j] == 'E'
-				|| map->after_map[i][j] == 'W')
+				|| map->after_map[i][j] == 'E' || map->after_map[i][j] == 'W')
 				count++;
 			j++;
 		}
 		i++;
 	}
-	if (count != 1)
-		ft_error("Map must contain exactly one player start\n", map);
+	if (count == 0)
+		ft_error("Map must have exactly one player position\n", map);
+	if (count > 1)
+		ft_error("Map cannot have multiple player positions\n", map);
 }
 
 void	find_player(char **map_copy, t_map *map)
@@ -100,12 +98,13 @@ void	find_player(char **map_copy, t_map *map)
 			if (map_copy[i][j] == 'N' || map_copy[i][j] == 'S'
 				|| map_copy[i][j] == 'E' || map_copy[i][j] == 'W')
 			{
-				map->start_y = i;
 				map->start_x = j;
+				map->start_y = i;
 				return ;
 			}
 			j++;
 		}
 		i++;
 	}
+	ft_error("Player position not found in map\n", map);
 }

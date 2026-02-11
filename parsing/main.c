@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:04:50 by tony              #+#    #+#             */
-/*   Updated: 2026/02/11 19:46:27 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/11 21:47:34 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	parse_rgb(char *line, t_color *color)
 int	parse_map_data(char **av, t_map *map)
 {
 	validate_config(map);
-	check_path(map);
 	if (parse_config(map))
 		return (free_map_data(map), 1);
+	check_path(map);
 	replace_spaces(map->after_map);
 	validate_map(map);
 	map->mapp_scan = copy_map_data(map->after_map, av[1]);

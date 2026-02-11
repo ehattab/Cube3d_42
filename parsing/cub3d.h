@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/14 18:49:44 by tony              #+#    #+#             */
-/*   Updated: 2026/02/11 20:11:51 by ehattab          ###   ########.fr       */
+/*   Created: 2025/08/14 18:49:44 by toroman              #+#    #+#             */
+/*   Updated: 2026/02/11 21:07:04 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void		free_map_data(t_map *map);
 void		validate_map(t_map *map);
 int			find_first_char(char *line);
 int			get_min_indent(char **map_lines);
+int			check_mixed_ws(char **lines, int count);
 void		count_configs(t_map *map, int *counts);
 void		validate_config(t_map *map);
 int			count_tabs(char *s);
