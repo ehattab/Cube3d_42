@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 18:49:44 by toroman           #+#    #+#             */
-/*   Updated: 2026/02/11 21:56:41 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/20 15:10:52 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,18 +111,22 @@ typedef struct s_game
 
 typedef struct s_ray
 {
-	float	ray_x;
-	float	ray_y;
-	float	dir_x;
-	float	dir_y;
-	float	dist;
-	float	line_height;
-	int		draw_start;
-	int		draw_end;
+	double	dir_x;
+	double	dir_y;
+	double	sx;
+	double	sy;
+	double	dx;
+	double	dy;
+	double	dist;
+	double	wall_x;
+	int		mx;
+	int		my;
+	int		step_x;
+	int		step_y;
 	int		side;
-	float	wall_x;
-	int		prev_map_x;
-	int		map_x;
+	int		height;
+	int		start;
+	int		end;
 }	t_ray;
 
 /*parsing*/
@@ -159,6 +163,7 @@ void		free_map_data(t_map *map);
 void		validate_map(t_map *map);
 int			find_first_char(char *line);
 int			get_min_indent(char **map_lines);
+int			check_mixed_ws_line(char *line);
 int			check_mixed_ws(char **lines, int count);
 void		count_configs(t_map *map, int *counts);
 void		validate_config(t_map *map);
@@ -183,8 +188,6 @@ void		draw_map(t_game *game);
 void		clear_image(t_game *game);
 void		init_game(t_game *game, t_map *map);
 bool		touch(float px, float py, t_game *game);
-float		distance(float x, float y);
-float		fixed_dist(float *p1, float *p2, t_game *game);
 void		render_rays(t_game *game, t_player *player);
 int			draw_loop(t_game *game);
 void		init_player(t_player *player, t_map *map);
@@ -196,11 +199,15 @@ void		move_forward_backward(t_player *player, t_game *game, int dir);
 void		move_left_right(t_player *player, t_game *game, int dir);
 void		rotate_player(t_player *player);
 void		move_player(t_player *player, t_game *game);
-void		trace_ray(t_ray *ray, t_game *game);
-void		cast_ray(t_ray *ray, t_player *pl, t_game *game, float angle);
+void		set_ray(t_ray *ray, t_player *pl, int x);
+void		set_step_x(t_ray *ray, double px, double py);
+void		set_step_y(t_ray *ray, double px, double py);
+int			is_wall(t_ray *ray, t_game *game);
+void		cast_ray(t_ray *ray, t_game *game);
+void		set_wall(t_ray *ray, double px, double py);
+int			get_tex_x(t_ray *ray, t_img *tex);
 void		draw_wall(t_game *game, t_ray *ray, int x);
 void		draw_column(t_game *game, t_ray *ray, int x);
-void		compute_wall(t_ray *ray);
 void		init_texture_img(t_game *game, t_img *image, char *path);
 void		load_textures(t_game *game, t_map *map);
 t_img		*get_wall_texture(t_game *game, t_ray *ray);

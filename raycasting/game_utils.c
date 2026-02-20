@@ -6,63 +6,86 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 21:44:55 by ehattab           #+#    #+#             */
-/*   Updated: 2026/02/11 21:53:43 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/16 21:01:17 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing/cub3d.h"
 
-bool	touch(float px, float py, t_game *game)
+int	get_tex_x(t_ray *ray, t_img *tex)
 {
-	int	x;
+	int	tex_x;
+
+	tex_x = (int)(ray->wall_x * tex->width);
+	if (ray->side == 0 && ray->dir_x > 0)
+		tex_x = tex->width - tex_x - 1;
+	if (ray->side == 1 && ray->dir_y < 0)
+		tex_x = tex->width - tex_x - 1;
+	return (tex_x);
+}
+
+void	draw_wall(t_game *game, t_ray *ray, int x)
+{
+	t_img	*tex;
+	int		tex_x;
+	double	step;
+	double	tex_pos;
+	int		y;
+
+	tex = get_wall_texture(game, ray);
+	tex_x = get_tex_x(ray, tex);
+	step = 1.0 * tex->height / ray->height;
+	tex_pos = (ray->start - HEIGHT / 2
+			+ ray->height / 2.0) * step;
+	y = ray->start;
+	while (y <= ray->end)
+	{
+		put_pixel(x, y, *(int *)(tex->data
+				+ ((int)tex_pos & (tex->height - 1)) * tex->size_line
+				+ tex_x * (tex->bpp / 8)), game);
+		tex_pos += step;
+		y++;
+	}
+}
+
+void	draw_column(t_game *game, t_ray *ray, int x)
+{
 	int	y;
 
-	x = px / BLOCK;
-	y = py / BLOCK;
-	if (y < 0 || y >= game->map_data->height)
-		return (true);
-	if (x < 0 || x >= (int)ft_strlen(game->map[y]))
-		return (true);
-	if (game->map[y][x] == '1')
-		return (true);
-	return (false);
-}
-
-float	distance(float x, float y)
-{
-	return (sqrt(x * x + y * y));
-}
-
-float	fixed_dist(float *p1, float *p2, t_game *game)
-{
-	float	delta_x;
-	float	delta_y;
-	float	angle;
-	float	fix_dist;
-
-	delta_x = p2[0] - p1[0];
-	delta_y = p2[1] - p1[1];
-	angle = atan2(delta_y, delta_x) - game->player.angle;
-	fix_dist = distance(delta_x, delta_y) * cos(angle);
-	return (fix_dist);
+	if (DEBUG)
+		return ;
+	y = 0;
+	while (y < ray->start)
+	{
+		put_pixel(x, y, game->ceil_color, game);
+		y++;
+	}
+	draw_wall(game, ray, x);
+	y = ray->end + 1;
+	while (y < HEIGHT)
+	{
+		put_pixel(x, y, game->floor_color, game);
+		y++;
+	}
 }
 
 void	render_rays(t_game *game, t_player *player)
 {
 	t_ray	ray;
-	float	fraction;
-	float	start_x;
+	double	px;
+	double	py;
 	int		i;
 
-	fraction = PI / 3 / WIDTH;
-	start_x = player->angle - PI / 6;
+	px = player->x / (double)BLOCK;
+	py = player->y / (double)BLOCK;
 	i = 0;
 	while (i < WIDTH)
 	{
-		cast_ray(&ray, player, game, start_x);
-		compute_wall(&ray);
+		set_ray(&ray, player, i);
+		set_step_x(&ray, px, py);
+		cast_ray(&ray, game);
+		set_wall(&ray, px, py);
 		draw_column(game, &ray, i);
-		start_x += fraction;
 		i++;
 	}
 }

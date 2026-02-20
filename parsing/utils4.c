@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:33:06 by toroman           #+#    #+#             */
-/*   Updated: 2026/02/11 21:07:04 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/16 21:41:57 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,26 @@ int	process_line(char **cm, t_map *map, int *ij)
 {
 	char	*trim;
 	char	**sc;
-	int		ret;
 
 	trim = ft_strtrim(cm[ij[0]], " \t\n\v\f\r");
 	if (!trim || trim[0] == '\0')
 		return (free(trim), 0);
 	sc = ft_split(trim, ' ');
-	ret = 0;
 	if (sc && sc[0] && is_config(sc[0]))
 	{
 		map->before_map[ij[1]++] = ft_strdup(cm[ij[0]]);
 		free_map(sc);
 		return (free(trim), 0);
 	}
-	if (is_map(trim))
-		ret = 1;
-	if (sc)
+	if (!is_map(trim))
+	{
 		free_map(sc);
+		free(trim);
+		ft_error("Unknown line in config section\n", map);
+	}
+	free_map(sc);
 	free(trim);
-	return (ret);
+	return (1);
 }
 
 char	**split_config_map(char **copy_map, t_map *map)
@@ -52,7 +53,7 @@ char	**split_config_map(char **copy_map, t_map *map)
 
 	ij[0] = 0;
 	ij[1] = 0;
-	map->before_map = malloc(sizeof(char *) * 100);
+	map->before_map = ft_calloc(100, sizeof(char *));
 	if (!map->before_map)
 		ft_error("Memory allocation failed\n", map);
 	while (copy_map[ij[0]])

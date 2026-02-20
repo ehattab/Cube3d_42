@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 17:10:29 by toroman           #+#    #+#             */
-/*   Updated: 2026/02/11 20:05:56 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/16 21:41:57 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,17 @@ int	parse_config(t_map *map)
 		split = ft_split(map->before_map[i], ' ');
 		if (!split)
 			return (1);
-		if (split[0] && split[1])
+		if (!split[0] || !split[1])
 		{
-			set_texture(map, split);
-			if (set_color(map, split))
-			{
-				free_map(split);
-				return (1);
-			}
+			printf("Error\nConfig line missing value\n");
+			free_map(split);
+			return (1);
+		}
+		set_texture(map, split);
+		if (set_color(map, split))
+		{
+			free_map(split);
+			return (1);
 		}
 		free_map(split);
 		i++;

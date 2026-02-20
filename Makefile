@@ -6,7 +6,7 @@
 #    By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/18 14:52:34 by toroman           #+#    #+#              #
-#    Updated: 2026/02/11 19:03:33 by ehattab          ###   ########.fr        #
+#    Updated: 2026/02/12 16:36:37 by ehattab          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ raycasting/player_utils.c raycasting/utils.c \
 raycasting/texture.c raycasting/raycasting.c \
 
 OBJS = ${SRCS:.c=.o}
-NAME = cub3d
+NAME = cub3D
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3
 

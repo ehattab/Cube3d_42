@@ -6,13 +6,13 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 21:07:46 by ehattab           #+#    #+#             */
-/*   Updated: 2026/02/11 21:51:37 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/16 21:56:30 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	check_mixed_ws_line(char *line)
+int	check_mixed_ws_line(char *line)
 {
 	int	i;
 	int	has_tab;

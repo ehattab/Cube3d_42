@@ -6,7 +6,7 @@
 /*   By: ehattab <ehattab@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 21:00:00 by ehattab           #+#    #+#             */
-/*   Updated: 2026/02/11 16:54:17 by ehattab          ###   ########.fr       */
+/*   Updated: 2026/02/16 21:05:48 by ehattab          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	move_forward_backward(t_player *player, t_game *game, int dir)
 	float	new_x;
 	float	new_y;
 
-	speed = 10;
+	speed = 2;
 	new_x = player->x + cos(player->angle) * speed * dir;
 	new_y = player->y + sin(player->angle) * speed * dir;
 	if (can_move(new_x, player->y, game))
@@ -33,7 +33,7 @@ void	move_left_right(t_player *player, t_game *game, int dir)
 	float	new_x;
 	float	new_y;
 
-	speed = 6;
+	speed = 1.5;
 	new_x = player->x - sin(player->angle) * speed * dir;
 	new_y = player->y + cos(player->angle) * speed * dir;
 	if (can_move(new_x, player->y, game))
@@ -46,7 +46,7 @@ void	rotate_player(t_player *player)
 {
 	float	angle_speed;
 
-	angle_speed = 0.08;
+	angle_speed = 0.015;
 	if (player->left_rotate)
 	{
 		player->angle -= angle_speed;
